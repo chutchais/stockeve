@@ -1,0 +1,69 @@
+/*
+#1 = 85b0be
+#2 = 95cbdd
+*/
+
+a:hover {
+	color: #a30000;
+}
+
+/* menu */
+.nav>li>a:hover {
+	color: #a30000;
+}
+
+.navbar .navbar-nav > .active > a {
+	color: #940000;
+	border-bottom: 4px solid #940000;
+}
+
+/* flexslider */
+.flex-control-paging li a {
+
+}
+
+
+.testimonial span.author a {
+	color: #940000;
+}
+
+/* --- icon box hover --- */
+.hi-icon-effect-5 .hi-icon {
+	color: #940000v;
+	box-shadow: 0 0 0 4px #940000;
+}
+.no-touch .hi-icon-effect-5 .hi-icon:hover {
+	background: #940000;
+	box-shadow: 0 0 0 8px  #a30000;
+}
+
+
+/* portfolio */
+.portfolio-item .portfolio-desc {
+	background: #940000;
+}
+
+/* btn */
+.btn-theme {
+  background: #940000;
+}
+.btn-theme:hover,.btn-theme:focus,.btn-theme:active{
+  background: #940000;
+}
+.btn-cta,.btn-cta.btn-lg {
+  background: #940000;
+  border-color: #a30000;
+}
+
+.btn-cta:focus,.btn-cta:active{
+   border-color: #940000;
+}
+
+/* footer */
+.social-circle li a {
+	background:#940000;
+}
+
+a.scrollup{
+	background:#940000;
+}

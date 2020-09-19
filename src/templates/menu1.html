@@ -1,0 +1,145 @@
+{% extends "index.html" %}
+{% load static %}
+
+
+{% block content %}
+
+ <!-- services -->
+  <section id="section-services" class="section pad-bot30 bg-white">
+    <div class="container">
+
+      <div class="row mar-bot40">
+        <div class="col-lg-4">
+          <div class="hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a mar-top20">
+            <div class="float-left mar-right20">
+              <a href="{% url 'product:list' %}?over=yes"><img src="{% static 'img/1.jpg' %}" height="90" width="auto"></a>
+              <!-- <a href="#" class="hi-icon hi-icon-screen">screen</a> -->
+            </div>
+          </div>
+          <h3 class="text-bold">Over stock</h3>
+          <p>สินค้าจำนวนมาก เน้นขาย</p>
+
+          <div class="clear"></div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a mar-top20">
+            <div class="float-left mar-right20">
+              <a href="{% url 'product:list' %}?lacking=yes"><img src="{% static 'img/2.jpg' %}" height="90" width="auto"></a>
+              <!-- <a href="#" class="hi-icon hi-icon-location">location</a> -->
+            </div>
+          </div>
+          <h3 class="text-bold">Lacking stock</h3>
+          <p>สินค้าขาด</p>
+
+          <div class="clear"></div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a mar-top20">
+            <div class="float-left mar-right20">
+              <a href="{% url 'receiving:list' %}?all=yes"><img src="{% static 'img/3.jpg' %}" height="90" width="auto"></a>
+              <!-- <a href="#" class="hi-icon hi-icon-images">images</a> -->
+            </div>
+          </div>
+          <h3 class="text-bold">Incoming stock</h3>
+          <p style="Helvetica">สินค้าที่กำลังจะเข้า</p>
+
+          <div class="clear"></div>
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a mar-top20">
+            <div class="float-left mar-right20">
+              <a href="{% url 'product:list' %}"><img src="{% static 'img/4.jpg' %}" height="90" width="auto"></a>
+              <!-- <a href="{% url 'product:list' %}" class="hi-icon hi-icon-archive">archive</a> -->
+            </div>
+          </div>
+          <h3 class="text-bold">Checking stock</h3>
+          <p>ตรวจสอบจำนวนสินค้า</p>
+
+          <div class="clear"></div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a mar-top20">
+            <div class="float-left mar-right20">
+              <a href="#"><img src="{% static 'img/5.jpg' %}" height="90" width="auto"></a>
+              <!-- <a href="#" class="hi-icon hi-icon-contract">Mobile</a> -->
+            </div>
+          </div>
+          <h3 class="text-bold">Forecasting stock</h3>
+          <p>ประมาณการใช้สินค้า</p>
+
+          <div class="clear"></div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="hi-icon-wrap hi-icon-effect-5 hi-icon-effect-5a mar-top20">
+            <div class="float-left mar-right20">
+              <a href="{% url 'receiving:list' %}"><img src="{% static 'img/6.jpg' %}" height="90" width="auto"></a>
+              <!-- <a href="#" class="hi-icon hi-icon-clock">Faster</a> -->
+            </div>
+          </div>
+          <h3 class="text-bold">Product Hi-light</h3>
+          <p>สินค้าใหม่</p>
+
+          <div class="clear"></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+<!-- spacer section:testimonial -->
+ <section id="testimonials" class="section" data-stellar-background-ratio="0.5">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="align-center">
+
+                <li>
+                  <div class="testimonial clearfix">
+                    <h5 align="left"><br><br><br><br><br>
+เวปไซด์นี่ถูกจัดทำขึ้นเพื่อตรวจสอบจำนวนสินค้า แจ้งสินค้าที่แนะนำขาย แจ้งสินค้าขาด รวมไปถึงโปรโมชั่นสินค้าในช่วงเวลานั้นๆ ทางบริษัทฯ หวังเป็นอย่างยิ่งว่าข้อมูลเหล่านี้จะเป็นประโยชน์ต่อฝ่ายขายทุกท่าน<br><br><br><br><br><br>
+                      </h5>
+                  </div>
+                </li>
+
+
+
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <section id="section-contact" class="section appear clearfix">
+
+   <div class="container">
+
+      <div class="row mar-bot40">
+        <div class="col-md-offset-3 col-md-6">
+          <div class="section-header">
+            <h2 class="section-heading animated" data-animation="bounceInUp">บริษัท สยามแมเนอร์ กรุ๊ป จำกัด</h2>
+
+<p>660 ซอยนวมินทร์ 81 แยก 3-42 แขวงนวมินทร์ เขตบึงกุ่ม กรุงเทพฯ 10240
+TEL. 02-033-5400       FAX. 02-033-5409       www.eve.co.th</p>
+          </div>
+        </div>
+      </div>
+  </section>
+
+<!-- map -->
+  <section id="section-map" class="clearfix">
+<iframe width="100%" height="600" src="https://maps.google.com/maps?width=100%&amp;height=600&amp;hl=en&amp;q=660%20%E0%B8%8B%E0%B8%AD%E0%B8%A2%E0%B8%99%E0%B8%A7%E0%B8%A1%E0%B8%B4%E0%B8%99%E0%B8%97%E0%B8%A3%E0%B9%8C%2081%20%E0%B9%81%E0%B8%A2%E0%B8%81%203-42%20%E0%B9%81%E0%B8%82%E0%B8%A7%E0%B8%87%E0%B8%99%E0%B8%A7%E0%B8%A1%E0%B8%B4%E0%B8%99%E0%B8%97%E0%B8%A3%E0%B9%8C%20%E0%B9%80%E0%B8%82%E0%B8%95%E0%B8%9A%E0%B8%B6%E0%B8%87%E0%B8%81%E0%B8%B8%E0%B9%88%E0%B8%A1%20%E0%B8%81%E0%B8%A3%E0%B8%B8%E0%B8%87%E0%B9%80%E0%B8%97%E0%B8%9E%E0%B8%AF%2010240+(%E0%B8%9A%E0%B8%A3%E0%B8%B4%E0%B8%A9%E0%B8%B1%E0%B8%97%20%E0%B8%AA%E0%B8%A2%E0%B8%B2%E0%B8%A1%E0%B9%81%E0%B8%A1%E0%B9%80%E0%B8%99%E0%B8%AD%E0%B8%A3%E0%B9%8C%20%E0%B8%81%E0%B8%A3%E0%B8%B8%E0%B9%8A%E0%B8%9B%20%E0%B8%88%E0%B8%B3%E0%B8%81%E0%B8%B1%E0%B8%94)&amp;ie=UTF8&amp;t=&amp;z=19&amp;iwloc=B&amp;output=embed" width="100%" height="380" frameborder="0" style="border:0" allowfullscreen><a href="https://www.maps.ie/draw-radius-circle-map/">km radius map</a></iframe>s
+
+  </section>
+
+  {% endblock %}

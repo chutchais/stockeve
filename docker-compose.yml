@@ -1,0 +1,73 @@
+# docker-compose.yml
+version: '3'
+services:
+    redis:
+        container_name: inventory-redis
+        image: redis:5.0.6-alpine
+        networks:
+            - main
+        volumes:
+            - redis_data:/data
+        ports:
+            - 6379:6379
+
+
+    postgres:
+        restart: always
+        image: postgres:latest
+        container_name: inventory-db
+        ports:
+            - "5432:5432"
+        environment:
+            - POSTGRES_USER=inventory_sa
+            - POSTGRES_PASSWORD=pAssw0rd!
+            - POSTGRES_DB=inventory_db
+        networks:
+            - main
+        volumes:
+            - pgdata:/var/lib/postgresql/inventory/
+
+    web:
+        container_name: inventory-server
+        restart: always
+        build: ./src
+        expose:
+            - "8000"
+        links:
+            - postgres:postgres
+            # - redis:redis
+        networks:
+            - main
+        volumes:
+            # - web-django:/usr/src/payment
+            - web-static:/staticfiles
+        # env_file: .env
+        command: gunicorn inventory.wsgi:application -w 2 -b :8000
+        ports:
+            - 8000:8000
+  
+    qcluster:
+        build:
+            context: ./src
+        networks:
+            - main
+        # links:
+        #   - payment-redis:payment-redis
+        #   - postgres:postgres
+        volumes:
+            - web-static:/staticfiles
+        command: python manage.py qcluster
+        container_name: inventory-qcluster
+        depends_on:
+            - web
+        environment:
+            - REDIS_URL=redis://redis:6379/0
+
+volumes:  
+  # web-django:
+  redis_data:
+  web-static:
+  pgdata:
+
+networks:
+  main:

@@ -1,0 +1,103 @@
+{% extends "index.html" %}
+{% load static %}
+
+
+{% block content %}
+
+
+
+    <link rel="icon" type="image/png" href="{% static 'login/images/icons/favicon.ico' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'login/vendor/animate/animate.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'login/vendor/css-hamburgers/hamburgers.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'login/vendor/animsition/css/animsition.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'login/vendor/select2/select2.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'login/vendor/daterangepicker/daterangepicker.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'login/css/util.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'login/css/main.css' %}">
+
+
+
+
+    <div class="limiter">
+        <br>
+            {% if form.errors %}
+<h4 align="center">UserName นี้ยังไม่ได้ลงทะเบียน กรุณาติดต่อ Admin</h4>
+{% endif %}
+
+{% if next %}
+    {% if user.is_authenticated %}
+    <h4 align="center">คุณไม่สามารถเข้าหน้านี้ได้ถ้าต้องการเข้า กรุณาติดต่อ Admin</h4>
+    {% else %}
+    <h4 align="center">กรุณา Login เพื่อเข้าหน้านี้</h4>
+    {% endif %}
+{% endif %}
+
+        <div class="container-login100">
+            <div class="wrap-login100 p-t-50 p-b-90">
+                <form class="login100-form validate-form flex-sb flex-w" method="post" action="{% url 'login' %}">
+{% csrf_token %}
+
+                    
+                    <div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required">
+                        <input class="input100" type="text" name="username" placeholder="Username" id="username" >
+                        <span class="focus-input100"></span>
+                    </div>
+                    
+                    
+                    <div class="wrap-input100 validate-input m-b-16" data-validate = "Password is required">
+                        <input class="input100" type="password" name="password" placeholder="Password" id="password">
+                        <span class="focus-input100"></span>
+                    </div>
+                    
+                    <div class="flex-sb-m w-full p-t-3 p-b-24">
+
+
+                        <div>
+
+                            {# Assumes you setup the password_reset view in your URLconf #}
+<a href="{% url 'password_reset' %}" class="txt1">ลืมรหัสผ่าน</a>
+
+
+                        </div>
+                    </div>
+<input type="submit" value="Login" class="login100-form-btn">
+<input type="hidden" name="next" value="{{ next }}" >
+
+
+
+
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+    
+
+    <div id="dropDownSelect1"></div>
+    {% endblock %}
+<!--===============================================================================================-->
+    <script src="{% static 'login/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+<!--===============================================================================================-->
+    <script src="{% static 'login/vendor/animsition/js/animsition.min.js' %}"></script>
+<!--===============================================================================================-->
+    <script src="{% static 'login/vendor/bootstrap/js/popper.js' %}"></script>
+    <script src="{% static 'login/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<!--===============================================================================================-->
+    <script src="{% static 'login/vendor/select2/select2.min.js' %}"></script>
+<!--===============================================================================================-->
+    <script src="{% static 'login/vendor/daterangepicker/moment.min.js' %}"></script>
+    <script src="{% static 'login/vendor/daterangepicker/daterangepicker.js' %}"></script>
+<!--===============================================================================================-->
+    <script src="{% static 'login/vendor/countdowntime/countdowntime.js' %}"></script>
+<!--===============================================================================================-->
+    <script src="{% static 'login/js/main.js' %}"></script>
+
+
+
+
+
+
+
+
+

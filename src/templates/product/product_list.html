@@ -1,0 +1,72 @@
+{% extends "index.html" %}
+{% load static %} 
+
+{% block title %}StockEVE - Product list{% endblock %}
+
+{% block content %}
+ <div class="container">
+    
+    <form class='form' method='GET' action='.'>
+                        <input type='text' id='search' placeholder="ค้นหาสินค้า" name="q" value='{{ request.GET.q}}'>
+                        <button class='btn btn-default' type='submit'>Search</button>
+                        <a href="{% url 'product:list'  %}">ล้างข้อมูล</a>
+    </form>
+       รายการที่ {{ page_obj.start_index }} ถึง {{ page_obj.end_index }} จากทังหมด {{ page_obj.paginator.count }} รายการ <br>
+     {% if is_paginated %}
+                  <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                      <li><a href="?q={{ request.GET.q}}&page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                    {% else %}
+                      <li class="disabled"><span>&laquo;</span></li>
+                    {% endif %}
+                    {% for i in paginator.page_range %}
+                      {% if page_obj.number == i %}
+                        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                      {% else %}
+                        <li><a href="?q={{ request.GET.q}}&page={{ i }}">{{ i }}</a></li>
+                      {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                      <li><a href="?q={{ request.GET.q}}&page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                    {% else %}
+                      <li class="disabled"><span>&raquo;</span></li>
+                    {% endif %}
+                  </ul>
+      {% endif %}
+
+<a href="{% url 'product:list'  %}?low=true">แสดงเฉพาะสินค้าลูกเท่านั้น</a><br>
+
+
+    {% for object in object_list %}
+<div class="col-md-3">
+
+          <div class="team-member">
+            <figure class="member-photo"><a href="{{object.get_absolute_url}}"><img src="{{object.images.first.file.url}}" height="100" width="100"></figure></a>
+            <div class="team-detail">
+              <h4>{{object.title}}</h4>
+              เลขสินค้า: {{object.number}}<br>
+              <span> จำนวนที่มี:{{object.total_qty}}</span>
+              <p hidden>จำนวนที่ถูกจอง:{{object.total_unsale_qty}} </p>
+              <p hidden>สินค้าขั้นต่ำ:{{object.min_stock}} </p>
+              <p hidden>Units:{{object.unit_name}} </p>
+              <p hidden>Lower Stock:{{object.lower_stock}}</p>
+              <p hidden>Modify Date:{{object.updated}}</p>
+              <p hidden>Status:{{object.status}}</p>
+          </div>
+        </div>
+
+
+      
+      </div>
+          {% endfor %}
+    </div>
+  </section>
+
+
+
+
+{% endblock content %}
+
+
+{% block stylesheet %}
+{% endblock stylesheet %}

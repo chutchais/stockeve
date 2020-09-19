@@ -1,0 +1,28 @@
+{% extends "index.html" %}
+
+
+{% block title %}
+	Product : {{ object.number }}
+{% endblock %}
+
+{% block content %}
+<div class="detail">
+	{% if user.is_authenticated %}
+	      <p>ยินดีต้อนรับ, {{ user.username }}. คุณสามารถดู stock สินค้าได้แล้ว<a href="{% url 'logout' %}">ออกจากระบบ</a></p>
+
+	  {% else %}
+	      <p>Welcome, new user. Please log in. <a href="{% url 'login' %}">login</a></p>
+	  {% endif %}
+
+	<h1>{{ object.product.number }}</h1>
+	<a href="{% url 'receiving:list' %}">back</a>
+	<br>
+
+	<!-- Object Detail -->
+	{{ object.store }}|
+	{{ object.product.title }} | {{ object.product.description }} | {{ object.qty }} | <i>({{object.updated}})</i>
+	<!-- End Object Detail -->
+
+	
+</div>
+{% endblock content %}

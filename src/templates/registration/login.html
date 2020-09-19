@@ -1,0 +1,89 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<br><br><br>
+    <div class="container">
+
+      <div class="row mar-bot40">
+        <div class="col-md-offset-3 col-md-6">
+          <div class="section-header">
+            <p><form class="form-signin" method="post" action="{% url 'login' %}">
+{% if form.errors %}
+<p>ข้อมูล username หรือ password ผิด กรุณาลองอีกครั้ง</p>
+{% endif %}
+
+{% if next %}
+    {% if user.is_authenticated %}
+    <p>คุณไม่สามารถเข้าดูหน้านี้ได้ ถ้าต้องการเข้ากรุณาติดต่อ Admin</p>
+    {% else %}
+    <p>กรุณา Log-in ก่อนค่ะ</p>
+    {% endif %}
+{% endif %}
+
+<div class="field message form-group">
+{% csrf_token %}
+{{ form.username.label_tag }} {{ form.username }}
+<br>
+{{ form.password.label_tag }} &nbsp;&nbsp;{{ form.password }}
+</div>
+<div class="send-btn"><input type="submit" value="login" class="btn btn-theme"></div>
+<input type="hidden" name="next" value="{{ next }}">
+
+
+{# Assumes you setup the password_reset view in your URLconf #}
+<p><a href="{% url 'password_reset' %}">Reset รหัสผ่าน</a></p>
+</form></p>
+        <!--   </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+          <div class="cform" id="contact-form">
+            <div id="sendmessage">Your message has been sent. Thank you!</div>
+            <div id="errormessage"></div>
+            <form action="" method="post" class="contactForm">
+
+              <div class="field your-name form-group">
+                <input type="text" name="name" placeholder="Your Name" class="cform-text" size="40" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+                <div class="validation"></div>
+              </div>
+              <div class="field your-email form-group">
+                <input type="text" name="email" placeholder="Your Email" class="cform-text" size="40" data-rule="email" data-msg="Please enter a valid email">
+                <div class="validation"></div>
+              </div>
+              <div class="field subject form-group">
+                <input type="text" name="subject" placeholder="Subject" class="cform-text" size="40" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject">
+                <div class="validation"></div>
+              </div>
+
+              <div class="field message form-group">
+                <textarea name="message" class="cform-textarea" cols="40" rows="10" data-rule="required" data-msg="Please write something for us"></textarea>
+                <div class="validation"></div>
+              </div>
+
+              <div class="send-btn">
+                <input type="submit" value="SEND MESSAGE" class="btn btn-theme">
+              </div>
+
+            </form>
+          </div>
+        </div>
+         ./span12 -->
+      </div> 
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+{% endblock %}

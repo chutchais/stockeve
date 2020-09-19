@@ -1,0 +1,41 @@
+{% extends "index.html" %}
+
+{% block title %}
+	Product : {{ object }}
+{% endblock %}
+
+{% block content %}
+
+	{% if user.is_authenticated %}
+	      <p>Welcome, {{ user.username }}. Thanks for logging in.<a href="{% url 'logout' %}">logout</a></p>
+
+	  {% else %}
+	      <p>Welcome, new user. Please log in. <a href="{% url 'login' %}">login</a></p>
+	  {% endif %}
+
+	<h1>{{ object.number }}</h1>
+	<a href="../stock">back</a>
+	<br>
+
+	<!-- Object Detail -->
+	{{ object.store }} | <a href="{{ object.product.get_absolute_url }}">{{ object.product }}</a> | {{ object.title }} | {{ object.qty }} | <i>({{object.updated}})</i>
+	<!-- End Object Detail -->
+
+	<h2>Stock History</h2>
+	<h4>Receiving</h4>
+	{% for object in object.receivings.all %}
+		<li>{{object.qty}} -- {{object.created}}</li>
+	{% endfor %}
+
+	<h4>Inspection</h4>
+	{% for object in object.inspections.all %}
+		<li>{{object.qty}} -- {{object.created}}</li>
+	{% endfor %}
+
+	<h4>Sale</h4>
+	{% for object in object.sales.all %}
+		<li>{{object.qty}} -- {{object.created}}</li>
+	{% endfor %}
+
+	
+{% endblock content %}

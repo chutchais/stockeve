@@ -1,0 +1,16 @@
+#Test
+Django==2.2.7
+django-import-export
+# Pillow
+django-ckeditor
+# corsheaders
+django-cors-headers
+# psycopg2
+# restful
+djangorestframework
+markdown
+django-filter
+gunicorn==19.9.0
+django-environ
+django-q
+redis

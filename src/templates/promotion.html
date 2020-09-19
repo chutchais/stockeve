@@ -1,0 +1,23 @@
+{% extends "index.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+
+{% for pm in promotion %}
+      <div class="row mar-bot40">
+        <div class="col-md-offset-3 col-md-6">
+          <div class="section-header">
+            <h2 class="section-heading animated" data-animation="bounceInUp">{{ pm.promotion_name }}</h2>
+          <p>{{ pm.promotion_detail }}</p>
+           <img src="{{ pm.promotion_img.url }}" width="100%" height="auto">
+{% endfor %}
+          </div>
+        </div>
+      </div>
+
+
+
+    </div>
+  </section>
+  {% endblock %}

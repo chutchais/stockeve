@@ -1,0 +1,62 @@
+{% extends "index.html" %}
+
+
+{% block title %}
+	Product : {{ object.number }}
+{% endblock %}
+
+{% block content %}
+
+	{% if user.is_authenticated %}
+	      <p>Welcome, {{ user.username }}. Thanks for logging in.<a href="{% url 'logout' %}">logout</a></p>
+
+	  {% else %}
+	      <p>Welcome, new user. Please log in. <a href="{% url 'login' %}">login</a></p>
+	  {% endif %}
+
+	<h1>{{ object.number }}</h1>
+	<a href="../product/">back</a>
+	<br>
+
+	<!-- Object Detail -->
+	{{ object.title }} | {{ object.description }} | {{ object.total_qty }} | <i>({{object.updated}})</i>
+	<!-- End Object Detail -->
+
+	<!-- Parent Details -->
+		{% if object.parent %}
+			<h3>Parent Details</h3>
+			<li><a href="{{object.parent.get_absolute_url}}">{{object.parent.number}} </a>:  {{object.parent.title}} -- {{object.total_qty}}</li>
+		{% endif %}
+	<!-- End Parent Details -->
+
+	
+	<!-- Store Details -->
+	{% if object.childs.all %}
+		<h3>Sub-Assembly Details</h3>
+		{% for child in object.childs.all %}
+			<li><a href="{{child.get_absolute_url}}">{{child.number}} </a>:  {{child.title}} -- {{child.total_qty}}</li>
+		{% endfor %}
+	{% endif %}
+	<!-- End Store Details -->
+
+	
+	<!-- Store Details -->
+	{% if object.stocks.all %}
+		<h3>Store Details</h3>
+		{% for store in object.stocks.all %}
+			<li><a href="{{store.get_absolute_url}}">{{store.store}}</a> :  {{store.qty}}  <i>({{store.updated}})</i></li>
+		{% endfor %}
+	{% endif %}
+	<!-- End Store Details -->
+
+	<!-- Store Details -->
+	{% if object.images.all %}
+		<h3>Images Details</h3>
+		{% for image in object.images.all %}
+			<span>{{image.note}}</span><br>
+			<img src="{{image.file.url}}">
+		{% endfor %}
+	{% endif %}
+	<!-- End Store Details -->
+
+{% endblock content %}

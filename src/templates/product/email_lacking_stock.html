@@ -1,0 +1,10 @@
+ <h4>Lacking Stock : {{object.title}}</h4>
+Product Number: {{object.number}}<br>
+<span> Avialable Stock:{{object.total_qty}}</span>
+<p hidden>Unsale Stock:{{object.total_unsale_qty}} </p>
+<p hidden>Min-Stock:{{object.min_stock}} </p>
+<p hidden>Units:{{object.unit_name}} </p>
+<p hidden>Lower Stock:{{object.lower_stock}}</p>
+<p hidden>Modify Date:{{object.updated}}</p>
+<p hidden>Status:{{object.status}}</p>
+<a href="{{object.get_absolute_url}}">Click to see more detail</a>

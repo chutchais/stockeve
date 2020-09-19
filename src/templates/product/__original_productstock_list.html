@@ -1,0 +1,107 @@
+{% extends "index.html" %}
+
+{% block title %}SiamManor - Product-Stock list{% endblock %}
+
+{% block content %}
+  
+  {% if user.is_authenticated %}
+        <p>Welcome, {{ user.username }}. Thanks for logging in.<a href="{% url 'logout' %}">logout</a></p>
+
+    {% else %}
+        <p>Welcome, new user. Please log in. <a href="{% url 'login' %}">login</a></p>
+    {% endif %}
+
+	<h1>Product-Stock List</h1>
+  <a href="../"><i class="fa fa-home" style="font-size:24px;color:blue" aria-hidden="true"></i></a>
+	<div class="wrapper">	
+
+
+    <form class='form' method='GET' action="{% url 'product:stock-list' %}">
+                        <input type='text' id='search' placeholder="Search product stock" name="q" value='{{ request.GET.q}}'>
+                        <button class='btn btn-default' type='submit'>Search</button>
+                        <a href="{% url 'product:stock-list' %}">Clear result</a>
+    </form>
+
+    {{ page_obj.start_index }} to {{ page_obj.end_index }} of {{ page_obj.paginator.count }} record(s). <br>
+     {% if is_paginated %}
+                  <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                      <li><a href="?q={{ request.GET.q}}&page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                    {% else %}
+                      <li class="disabled"><span>&laquo;</span></li>
+                    {% endif %}
+                    {% for i in paginator.page_range %}
+                      {% if page_obj.number == i %}
+                        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                      {% else %}
+                        <li><a href="?q={{ request.GET.q}}&page={{ i }}">{{ i }}</a></li>
+                      {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                      <li><a href="?q={{ request.GET.q}}&page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                    {% else %}
+                      <li class="disabled"><span>&raquo;</span></li>
+                    {% endif %}
+                  </ul>
+      {% endif %}
+
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Qty</th>
+          <th>Note</th>
+         <th>Created Date</th>
+         <th>Modify Date</th>
+         <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+		
+    		{% for object in object_list %}
+          <tr>
+            <td><a href="{{object.get_absolute_url}}">{{object}}</a> </td>
+            <td>{{object.qty}} </td>
+            <td>{{object.note}} </td>
+            <td>{{object.created}}</td>
+            <td>{{object.updated}}</td>
+           
+            <td>
+                <i class="fa {% if object.status %} ' fa-check-circle '  {% else %} ' fa-times-circle ' {% endif %} {{object.status}}" aria-hidden="true">
+                </i>
+            </td>
+          </tr>
+    		{% endfor %}
+      </tbody>
+    </table>
+
+    {{ page_obj.start_index }} to {{ page_obj.end_index }} of {{ page_obj.paginator.count }} record(s). <br>
+     {% if is_paginated %}
+                  <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                      <li><a href="?q={{ request.GET.q}}&page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                    {% else %}
+                      <li class="disabled"><span>&laquo;</span></li>
+                    {% endif %}
+                    {% for i in paginator.page_range %}
+                      {% if page_obj.number == i %}
+                        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                      {% else %}
+                        <li><a href="?q={{ request.GET.q}}&page={{ i }}">{{ i }}</a></li>
+                      {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                      <li><a href="?q={{ request.GET.q}}&page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                    {% else %}
+                      <li class="disabled"><span>&raquo;</span></li>
+                    {% endif %}
+                  </ul>
+      {% endif %}
+
+	</div>
+		
+{% endblock content %}
+
+
+{% block stylesheet %}
+{% endblock stylesheet %}
