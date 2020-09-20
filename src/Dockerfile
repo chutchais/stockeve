@@ -1,4 +1,5 @@
-FROM python:3.7.5-alpine
+# FROM python:3.7.5-alpine
+FROM python:3.8.5-alpine3.11
 
 RUN rm -rf /var/cache/apk/* && \
     rm -rf /tmp/*
