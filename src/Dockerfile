@@ -1,6 +1,11 @@
 FROM python:3.7.5-alpine
 
-RUN apk update && apk add libpq
+RUN rm -rf /var/cache/apk/* && \
+    rm -rf /tmp/*
+
+RUN apk update
+# RUN apk add libpq
+RUN apk add build-base postgresql-dev libffi-dev
 
 RUN apk add --no-cache --virtual .build-deps \
     gcc \
@@ -27,7 +32,7 @@ RUN apk add --no-cache --virtual .build-deps build-base linux-headers \
     && pip install Pillow==5.4.1
 
 
-RUN apk add curl sudo build-base unixodbc-dev unixodbc freetds-dev && pip install pyodbc
+# RUN apk add curl sudo build-base unixodbc-dev unixodbc freetds-dev && pip install pyodbc
 
 
 

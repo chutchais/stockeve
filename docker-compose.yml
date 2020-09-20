@@ -42,9 +42,9 @@ services:
             # - web-django:/usr/src/payment
             - web-static:/staticfiles
         # env_file: .env
-        command: gunicorn inventory.wsgi:application -w 2 -b :8000
+        command: gunicorn inventory.wsgi:application -w 2 -b :80
         ports:
-            - 8000:8000
+            - 80:80
   
     qcluster:
         build:
