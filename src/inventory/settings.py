@@ -35,7 +35,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = ['localhost','167.172.151.232','stock.eve.co.th','www.stock.eve.co.th']
+ALLOWED_HOSTS = ['localhost','167.172.151.232','stock.eve.co.th','www.stock.eve.co.th','*']
 
 LOGIN_URL = '/auth/login'
 
