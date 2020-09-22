@@ -4,7 +4,7 @@ import datetime
 
 def promotion(request):
 	today = datetime.datetime.today()
-	promo = Promotion.objects.filter(promotiondate__gt = today).order_by('priority')
+	promo = Promotion.objects.filter(promotiondate__gte = today).order_by('priority')
 	context = {'promo':promo}
 	return render(request, 'promotion.html',context)
 
