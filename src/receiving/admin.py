@@ -74,6 +74,7 @@ class ReceivingAdmin(ImportExportModelAdmin,ImportExportActionModelAdmin,admin.M
 		super(ReceivingAdmin, self).save_model(request, obj, form, change)
 
 	def formfield_for_foreignkey(self, db_field, request, **kwargs):
-		if db_field.name == 'store':
-			kwargs["queryset"] = Store.objects.filter(incoming = True)
+		# Edit on Sep 24,2020 -- To show all Stock
+		# if db_field.name == 'store':
+		# 	kwargs["queryset"] = Store.objects.filter(incoming = True)
 		return super().formfield_for_foreignkey(db_field, request, **kwargs)

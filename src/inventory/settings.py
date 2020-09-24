@@ -204,14 +204,14 @@ EMAIL_RECIPIENT_LACKING_LIST = ['lercorpt@gmail.com','phapawarin@eve.co.th']
 # EMAIL_HOST_PASSWORD = ''
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-if DEBUG :
-    EMAIL_HOST = env('EMAIL_HOST')#'smtp.gmail.com'
-    EMAIL_PORT = env('EMAIL_PORT')#587
-    EMAIL_HOST_USER = env('EMAIL_HOST_USER')#'noreply@eve.co.th'
-    EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')#'siammanor@min1'
-    EMAIL_USE_TLS = True
-else :
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# if DEBUG :
+EMAIL_HOST = env('EMAIL_HOST')#'smtp.gmail.com'
+EMAIL_PORT = env('EMAIL_PORT')#587
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')#'noreply@eve.co.th'
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')#'siammanor@min1'
+EMAIL_USE_TLS = True
+# else :
+#     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 SITE_ID = 1
 
