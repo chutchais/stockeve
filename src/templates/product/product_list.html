@@ -4,7 +4,8 @@
 {% block title %}StockEVE - Product list{% endblock %}
 
 {% block content %}
- <div class="container">
+  <link rel="stylesheet" href="{% static 'css/detail.css' %}">
+<div class="all">
     
     <form class='form' method='GET' action='.'>
                         <input type='text' id='search' placeholder="ค้นหาสินค้า" name="q" value='{{ request.GET.q}}'>
@@ -34,28 +35,24 @@
                   </ul>
       {% endif %}
 
-<a href="{% url 'product:list'  %}?low=true">แสดงเฉพาะสินค้าลูกเท่านั้น</a><br>
+<br><a href="{% url 'product:list'  %}?low=true">แสดงเฉพาะสินค้าลูกเท่านั้น</a><br>
 
-
+<div class="grid_shop">
     {% for object in object_list %}
-<div class="col-md-3">
 
-          <div class="team-member">
-            <figure class="member-photo">
-              {% if object.images.first %}
-              <a href="{{object.get_absolute_url}}">
-                <img src="{{object.images.first.file.url}}" height="100" width="100">
-              </a>
+
+          <div class="shop">
+            <figure class="shop_pic"><a href="{{object.get_absolute_url}}">
+              {% if object.images.first.file.url %}
+              <img align="middle" src="{{object.images.first.file.url}}" height="200" width="200"></a></figure>
               {% else %}
-              <a href="{{object.get_absolute_url}}">
-                <i class="fa fa-info-circle fa-10x" aria-hidden="true"></i>
-              </a>
+              <img align="middle" src="{% static 'img/default.jpg' %}" height="200" width="200"></a>
               {% endif %}
-            </figure>
-            <div class="team-detail">
-              <h4><a href="{{object.get_absolute_url}}">{{object.title}}</a></h4>
+            <div class="shop_detail">
+              
+              <b>{{object.title}}</b><br>
               เลขสินค้า: {{object.number}}<br>
-              <span> จำนวนที่มี:{{object.total_qty}}</span>
+              จำนวนที่มี:{{object.total_qty}}
               <p hidden>จำนวนที่ถูกจอง:{{object.total_unsale_qty}} </p>
               <p hidden>สินค้าขั้นต่ำ:{{object.min_stock}} </p>
               <p hidden>Units:{{object.unit_name}} </p>
@@ -66,17 +63,18 @@
         </div>
 
 
+
       
-      </div>
+
           {% endfor %}
-    </div>
-  </section>
+
 
 
 
 
 {% endblock content %}
-
+    </div>
+</div>
 
 {% block stylesheet %}
 {% endblock stylesheet %}

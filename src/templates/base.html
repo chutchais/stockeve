@@ -1,0 +1,50 @@
+{% load static %}
+
+
+<html lang="en">
+  <head>
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/menu.css' %}">
+  </head>
+  <body>
+
+
+  <div class="grid-container">
+
+    <div class="header1 deco"> 
+      <a href="{% url 'home' %}"><img src="{% static 'image/logo.jpg' %}" >
+    </div> 
+
+  <div class="header3 link">
+    <img src="{% static 'image/1.JPG' %}" width="80" height="40">
+    <div class="submenu">
+      <ul>
+        <input type="hidden" name="next" value="{{ next }}"> 
+        <li><a href="product">Product</a></li>
+        <li><a href="product/stock">Product-Stock</a></li>
+      </ul>
+    </div>
+  </div>
+
+
+    {% block head %}
+    {% endblock head %}
+
+    
+    {% block stylesheet %}
+    {% endblock stylesheet %}
+    </style>
+
+<div class="header2 menu">
+      <input type="hidden" name="next" value="{{ next }}">   
+    <a href="product">Product</a>
+    <a href="product/stock">Product-Stock</a>
+</div>
+
+      {% block content %}
+      {% endblock content %}
+</div>
+</body>
+</html>
