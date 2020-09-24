@@ -43,13 +43,17 @@
           <div class="team-member">
             <figure class="member-photo">
               {% if object.images.first %}
-                <a href="{{object.get_absolute_url}}">
+              <a href="{{object.get_absolute_url}}">
                 <img src="{{object.images.first.file.url}}" height="100" width="100">
+              </a>
+              {% else %}
+              <a href="{{object.get_absolute_url}}">
+                <i class="fa fa-info-circle fa-10x" aria-hidden="true"></i>
               </a>
               {% endif %}
             </figure>
             <div class="team-detail">
-              <h4>{{object.title}}</h4>
+              <h4><a href="{{object.get_absolute_url}}">{{object.title}}</a></h4>
               เลขสินค้า: {{object.number}}<br>
               <span> จำนวนที่มี:{{object.total_qty}}</span>
               <p hidden>จำนวนที่ถูกจอง:{{object.total_unsale_qty}} </p>

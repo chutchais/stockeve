@@ -56,10 +56,18 @@
             <!-- <div class="image"><a href="{{object.get_absolute_url}}">{{object}}</a>
             </div> -->
             <div class="image">
+              
               {% if object.images.first %}
-              <a href="{{object.get_absolute_url}}"></a>
-              <img src="{{object.images.first.file.url}}" height="100" width="100"></a>
+              <a href="{{object.get_absolute_url}}">
+                <img src="{{object.images.first.file.url}}" height="100" width="100">
+              </a>
+              {% else %}
+              <a href="{{object.get_absolute_url}}">
+                <i class="fa fa-info-circle fa-10x" aria-hidden="true"></i>
+              </a>
               {% endif %}
+            
+
             </div>
             <div class="info">
             เลขสินค้า:{{object.product.number}} <br>
