@@ -1,3 +1,4 @@
+
 /*
   Theme Name: Vlava
   Theme URL: https://bootstrapmade.com/vlava-free-bootstrap-one-page-template/
@@ -26,7 +27,7 @@ body {
 }
 
 body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, p {
-	font-family: 'Helvetica','Ebrima','RSU','RSU_Regular','RSU_Regular','Helvetica 35 Thin','jasmineUPC','Helveticathin','Helveticathin';
+	font-family: 'Helvetica Neue','Helvetica','RSU','Arial','sans-serif';
 }
 h1, h2, h3, h4, h5, h6 {
 	color:#222;
@@ -348,6 +349,7 @@ section.section {
 	margin-bottom: 0;
 	padding-bottom:0;
 }
+
 
 .navbar .navbar-collapse {
 	margin-bottom: 0;
@@ -712,7 +714,7 @@ nav#filter a {
 .testimonial h5 {
 	color: #fff;
 	font-size: 18px;
-	font-family: 'Helvetica','Ebrima','RSU','RSU_Regular','RSU_Regular','Helvetica 35 Thin','jasmineUPC','Helveticathin','Helveticathin';
+	font-family: 'Prompt','Helvetica','RSU','Helvetica 35 Thin','jasmineUPC','Helveticathin','Helveticathin';
 	line-height: 1.5em;
 }
 
@@ -729,7 +731,7 @@ nav#filter a {
 #contact-form input[type=text], .contactForm textarea {
 	width: 100%;
 	background: rgba(227, 231, 228, 1);
-	font-family: 'Helvetica','Ebrima','RSU','RSU_Regular','RSU_Regular','Helvetica 35 Thin','jasmineUPC','Helveticathin','Helveticathin';
+	font-family: 'Prompt','Helvetica','RSU','Helvetica 35 Thin','jasmineUPC','Helveticathin','Helveticathin';
 	border: 0;
 	font-size:14px;
 	text-align: left;
@@ -791,7 +793,7 @@ div.cform-response-output {
 	width: 100% !important;
 	left: 0 !important;
 	padding: 0.5em !important;
-	font-family: 'Helvetica','Ebrima','RSU','RSU_Regular','RSU_Regular','Helvetica 35 Thin','jasmineUPC','Helveticathin','Helveticathin';
+	font-family: 'Prompt','Helvetica','RSU','Helvetica 35 Thin','jasmineUPC','Helveticathin','Helveticathin';
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
@@ -1051,7 +1053,7 @@ Media queries
 @media (max-width: 767px) {
 
 	.navbar.navbar-fixed-top {
-		background-color:rgba(0,0,0,1);
+		background-color:rgba(0,0,0,0.3);
 	}
 	.navbar .navbar-collapse ul.nav {
 		background-color: #444;
