@@ -1,5 +1,12 @@
 FROM laudio/pyodbc:1.0.4
 
+RUN rm -rf /var/cache/apk/* && \
+    rm -rf /tmp/*
+
+
+RUN apt-get update
+RUN apt-get install -y iputils-ping
+
 WORKDIR /usr/src/winspeed
 
 # Add your source files.
