@@ -77,8 +77,12 @@ def pre_save_sale_receiver(sender, instance, *args, **kwargs):
 			if instance.product.childs.count() > 0 :
 				for p in instance.product.childs.all() :
 					try:
+						# objp = ProductStock.objects.filter(
+						# 	product=p , store__sale_able = True
+						# 	).order_by('qty')
+						print('Sale from %s' % instance.store )
 						objp = ProductStock.objects.filter(
-							product=p , store__sale_able = True
+							product=p , store = instance.store
 							).order_by('qty')
 					except ProductStock.DoesNotExist:
 						objp = None
@@ -90,8 +94,14 @@ def pre_save_sale_receiver(sender, instance, *args, **kwargs):
 						product_stock.save()
 			else :
 				# Top Or No sub product.
+				# objp = ProductStock.objects.filter(
+				# 			product=instance.product , store__sale_able = True
+				# 			).order_by('qty')
+				# Modify on Sep 24,2020
+				# Sale not adjust correct Store
+				print('Sale from %s' % instance.store )
 				objp = ProductStock.objects.filter(
-							product=instance.product , store__sale_able = True
+							product=instance.product , store=instance.store
 							).order_by('qty')
 				if objp :
 						product_stock = objp.first()
