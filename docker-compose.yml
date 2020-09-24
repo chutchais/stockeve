@@ -62,6 +62,16 @@ services:
             - web
         environment:
             - REDIS_URL=redis://redis:6379/0
+    
+    winspeed:
+        build:
+            context: ./winspeed
+        networks:
+            - main
+        command: python app.py
+        container_name: winspeed
+        ports:
+            - 8081:5000
 
 volumes:  
   # web-django:
