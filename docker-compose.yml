@@ -44,7 +44,7 @@ services:
         # env_file: .env
         command: gunicorn inventory.wsgi:application -w 2 -b :80
         ports:
-            - 80:80
+            - 8080:80
   
     qcluster:
         build:
