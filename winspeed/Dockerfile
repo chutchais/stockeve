@@ -28,3 +28,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 #ENTRYPOINT ["python"]
 COPY . /usr/src/winspeed
+COPY openssl.cnf /etc/ssl/openssl.cnf
