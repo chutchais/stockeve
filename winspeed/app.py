@@ -39,12 +39,10 @@ def check_db_connection():
 	try:
 		conn = connect_db()
 		jdata ={
-			"host" : os.environ['DB_HOST'],
 			"status":"Connection is sucessful"}
 		conn.close()
 	except Exception as e :
 		jdata ={
-			"host" : os.environ['DB_HOST'],
 			"status":f"Unable to connect database : {e}"
 			}
 	
