@@ -74,7 +74,7 @@ def fetch_sale_by_date(day):
 		jdata ={
 			"sql" : sql,
 			"rows" : len(rows),
-			"status":f"Fetch sale by date on {day} is sucessful"
+			"status":f"Fetch sale by date on {day} is sucessful",
 			"invoices": invoices}
 		cur.close()
 		conn.close()
