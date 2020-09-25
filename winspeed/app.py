@@ -54,6 +54,26 @@ def check_db_connection():
 			}
 	return json.dumps(jdata, indent=4,sort_keys=True) ,200
 
+@app.route('/api/sale/date/<day>', methods=['GET'])
+def fetch_sale_by_date(day):
+	try:
+		conn = connect_db()
+		cur = conn.cursor()
+		sql = f"select * from [dbwins_EMG].[dbo].[SOInvHD] where DocuDate='{day}''"
+		rows = fetch_data(sql,cur)
+		jdata ={
+			"sql" : sql,
+			"rows" : rows.length(),
+			"status":f"Fetch sale by date on {day} is sucessful"}
+		cur.close()
+		conn.close()
+	except Exception as e :
+		jdata ={
+			"sql" : sql,
+			"status":f"Unable to fetch data : {e}"
+			}
+	return json.dumps(jdata, indent=4,sort_keys=True) ,200
+
 @app.route('/api/invoice/<invoice>', methods=['GET'])
 def fetch_invoice(invoice):
 	try:
