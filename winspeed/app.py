@@ -59,7 +59,7 @@ def fetch_sale_by_date(day):
 	try:
 		conn = connect_db()
 		cur = conn.cursor()
-		sql = f"select * from [dbwins_EMG].[dbo].[SOInvHD] where DocuDate='{day}''"
+		sql = f"select * from [dbwins_EMG].[dbo].[SOInvHD] where DocuDate='{day}'"
 		rows = fetch_data(sql,cur)
 		jdata ={
 			"sql" : sql,
