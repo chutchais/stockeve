@@ -66,9 +66,9 @@ def fetch_sale_by_date(day):
 			row_json = {
 				'SOInvID': row.SOInvID,
 				'DocuNo':row.DocuNo,
-				'TotaBaseAmnt':row.TotaBaseAmnt,
-				'VATAmnt': row.VATAmnt,
-				'NetAmnt':row.NetAmnt
+				'TotaBaseAmnt': str(row.TotaBaseAmnt),
+				'VATAmnt': str(row.VATAmnt),
+				'NetAmnt': str(row.NetAmnt)
 			}
 			invoices.update(row_json)
 		jdata ={
