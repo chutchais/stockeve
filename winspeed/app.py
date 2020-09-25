@@ -105,7 +105,7 @@ def fetch_invoice(invoice):
 				'SOInvID': row.SOInvID,
 				'GoodID':row.GoodID,
 				'GoodName':row.GoodName,
-				'GoodQty2':row.GoodQty2,
+				'GoodQty2':str(row.GoodQty2),
 				'GoodAmnt': str(row.GoodAmnt)
 			}
 			items.append(row_json)
