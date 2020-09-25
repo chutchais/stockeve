@@ -3,8 +3,9 @@ import time
 import json
 import datetime
 
-from flask import request
+from flask import request,jsonify
 from flask import Response
+
 
 import os
 import sys
@@ -52,7 +53,10 @@ def check_db_connection():
 		jdata ={
 			"status":f"Unable to connect database : {e}"
 			}
-	return json.dumps(jdata, indent=4,sort_keys=True) ,200
+	# return json.dumps(jdata, indent=4,sort_keys=True) ,200
+	response=jsonify(jdata)
+	response.headers.add('Access-Control-Allow-Origin', '*')
+	return response
 
 @app.route('/api/sale/date/<day>', methods=['GET'])
 def fetch_sale_by_date(day):
@@ -83,7 +87,10 @@ def fetch_sale_by_date(day):
 			"sql" : sql,
 			"status":f"Unable to fetch data : {e}"
 			}
-	return json.dumps(jdata, indent=4,sort_keys=True) ,200
+	response=jsonify(jdata)
+	response.headers.add('Access-Control-Allow-Origin', '*')
+	return response
+	# return json.dumps(jdata, indent=4,sort_keys=True) ,200
 
 @app.route('/api/invoice/<invoice>', methods=['GET'])
 def fetch_invoice(invoice):
@@ -103,7 +110,10 @@ def fetch_invoice(invoice):
 			"sql" : sql,
 			"status":f"Unable to connect database : {e}"
 			}
-	return json.dumps(jdata, indent=4,sort_keys=True) ,200
+	response=jsonify(jdata)
+	response.headers.add('Access-Control-Allow-Origin', '*')
+	return response
+	# return json.dumps(jdata, indent=4,sort_keys=True) ,200
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0',debug=True)
