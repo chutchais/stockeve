@@ -63,7 +63,7 @@ def fetch_sale_by_date(day):
 		rows = fetch_data(sql,cur)
 		jdata ={
 			"sql" : sql,
-			"rows" : rows.len(),
+			"rows" : len(rows),
 			"status":f"Fetch sale by date on {day} is sucessful"}
 		cur.close()
 		conn.close()
@@ -83,7 +83,7 @@ def fetch_invoice(invoice):
 		rows = fetch_data(sql,cur)
 		jdata ={
 			"sql" : sql,
-			"rows" : rows.len(),
+			"rows" : len(rows),
 			"status":"Fetch is sucessful"}
 		cur.close()
 		conn.close()
