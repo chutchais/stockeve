@@ -61,7 +61,7 @@ def fetch_sale_by_date(day):
 		cur = conn.cursor()
 		sql = f"select SOInvID,DocuNo,TotaBaseAmnt,VATAmnt,NetAmnt from [dbwins_EMG].[dbo].[SOInvHD] where DocuDate='{day}'"
 		rows = fetch_data(sql,cur)
-		invoices =[]
+		invoices ={}
 		for row in rows:
 			row_json = {
 				'SOInvID': row.SOInvID,
