@@ -61,10 +61,21 @@ def fetch_sale_by_date(day):
 		cur = conn.cursor()
 		sql = f"select SOInvID,DocuNo,TotaBaseAmnt,VATAmnt,NetAmnt from [dbwins_EMG].[dbo].[SOInvHD] where DocuDate='{day}'"
 		rows = fetch_data(sql,cur)
+		invoices =[]
+		for row in rows:
+			row_json = {
+				'SOInvID': row.SOInvID,
+				'DocuNo':row.DocuNo,
+				'TotaBaseAmnt':row.TotaBaseAmnt,
+				'VATAmnt': row.VATAmnt,
+				'NetAmnt':row.NetAmnt
+			}
+			invoices.update(row_json)
 		jdata ={
 			"sql" : sql,
 			"rows" : len(rows),
-			"status":f"Fetch sale by date on {day} is sucessful"}
+			"status":f"Fetch sale by date on {day} is sucessful"
+			"invoices": invoices}
 		cur.close()
 		conn.close()
 	except Exception as e :
