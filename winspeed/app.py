@@ -97,12 +97,23 @@ def fetch_invoice(invoice):
 	try:
 		conn = connect_db()
 		cur = conn.cursor()
-		sql = f"select soinvid from [dbwins_EMG].[dbo].[SOInvDT] where soinvid={invoice}"
+		sql = f"select SOInvID,GoodID,GoodName,GoodQty2,GoodAmnt from [dbwins_EMG].[dbo].[SOInvDT] where soinvid={invoice}"
 		rows = fetch_data(sql,cur)
+		items =[]
+		for row in rows:
+			row_json = {
+				'SOInvID': row.SOInvID,
+				'GoodID':row.GoodID,
+				'GoodName':row.GoodName,
+				'GoodQty2':row.GoodQty2,
+				'GoodAmnt': str(row.GoodAmnt)
+			}
+			items.append(row_json)
 		jdata ={
 			"sql" : sql,
 			"rows" : len(rows),
-			"status":"Fetch is sucessful"}
+			"status":f"Fetch invoice {invoice}is sucessful",
+			"items": items}
 		cur.close()
 		conn.close()
 	except Exception as e :
