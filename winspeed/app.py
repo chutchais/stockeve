@@ -28,6 +28,13 @@ def connect_db() -> pyodbc.Connection:
 
     return pyodbc.connect(connection_str, timeout=100)
 
+def fetch_data(sql,cur: pyodbc.Cursor) -> List:
+    ''' Fetch all data from the table. '''
+    print('List of data.')
+    cur.execute(sql)
+
+    return cur.fetchall()
+
 @app.route('/', methods=['GET'])
 def index():
 	jdata ={"key":"sdasdas"}
@@ -45,7 +52,26 @@ def check_db_connection():
 		jdata ={
 			"status":f"Unable to connect database : {e}"
 			}
-	
+	return json.dumps(jdata, indent=4,sort_keys=True) ,200
+
+@app.route('/api/invoice/<invoice>', methods=['GET'])
+def fetch_invoice(invoice):
+	try:
+		conn = connect_db()
+		cur = conn.cursor()
+		sql = f"select soinvid from [dbwins_EMG].[dbo].[SOInvDT] where soinvid={invoice}"
+		rows = fetch_data(sql,cur)
+		jdata ={
+			"sql" : sql,
+			"rows" : 1,
+			"status":"Fetch is sucessful"}
+		cur.close()
+		conn.close()
+	except Exception as e :
+		jdata ={
+			"sql" : sql,
+			"status":f"Unable to connect database : {e}"
+			}
 	return json.dumps(jdata, indent=4,sort_keys=True) ,200
 
 if __name__ == '__main__':
