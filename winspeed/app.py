@@ -122,10 +122,10 @@ def fetch_invoice(invoice):
 			"sql" : sql,
 			"status":f"Unable to connect database : {e}"
 			}
-	response=jsonify(jdata)
-	response.headers.add('Access-Control-Allow-Origin', '*')
-	return response
-	# return json.dumps(jdata, indent=4,sort_keys=True) ,200
+	# response=jsonify(jdata)
+	# response.headers.add('Access-Control-Allow-Origin', '*')
+	# return response
+	return json.dumps(jdata, indent=4,ensure_ascii=False).encode('utf8') ,200
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0',debug=True)
