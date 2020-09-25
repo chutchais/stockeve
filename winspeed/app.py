@@ -97,12 +97,17 @@ def fetch_invoice(invoice):
 	try:
 		conn = connect_db()
 		cur = conn.cursor()
-		sql = f"select SOInvID,GoodID,GoodName,GoodQty2,GoodAmnt from [dbwins_EMG].[dbo].[SOInvDT] where soinvid={invoice}"
+		sql = f"select SOInvID,GoodID,GoodName,GoodQty2,GoodAmnt,GoodCode "
+				"from [dbwins_EMG].[dbo].[SOInvDT] s "
+  				"inner join [dbwins_EMG].[dbo].[EMGood] e "
+  				"on s.GoodID = e.GoodID "
+				"where s.soinvid={invoice}"
 		rows = fetch_data(sql,cur)
 		items =[]
 		for row in rows:
 			row_json = {
 				'SOInvID': row.SOInvID,
+				'GoodCode':row.GoodCode,
 				'GoodID':row.GoodID,
 				'GoodName':row.GoodName,
 				'GoodQty2':str(row.GoodQty2),
