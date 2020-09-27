@@ -3,7 +3,7 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 from datetime import date
 # Register your models here.
-from .models import Sale,SaleChildDetail
+from .models import Sale,SaleChildDetail,SoInvHD
 from product.models import ProductStock,Product
 
 from import_export import resources
@@ -187,3 +187,24 @@ class SaleChildSummaryAdmin(ImportExportModelAdmin,admin.ModelAdmin):
 
 		response.context_data['summary']=list(reports)
 		return response
+
+
+@admin.register(SoInvHD)
+class SoInvHDAdmin(ImportExportModelAdmin,ImportExportActionModelAdmin,admin.ModelAdmin):
+	search_fields = ['soinvid','docuno']
+	# list_filter = [SaleAllProductDateFilter]
+	list_display = ('soinvid','docuno','totabaseamnt','vatamnt','netamnt','saledate')
+	# list_editable = ('color','move_performa')
+	# autocomplete_fields = ['product']
+	readonly_fields = ('created','updated','user')
+	save_as = True
+	save_as_continue = True
+	save_on_top =True
+	list_select_related = True
+
+	fieldsets = [
+		('Basic Information',{'fields': ['soinvid','docuno','saledate']}),
+		('Price',{'fields': ['totabaseamnt','vatamnt','netamnt']}),
+		('System Information',{'fields':[('user','created'),'updated']})
+	]
+	# resource_class      = SaleResource

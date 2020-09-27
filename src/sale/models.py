@@ -212,3 +212,24 @@ class SaleChildDetail(Sale):
         proxy = True
         verbose_name = 'Child Product Sale Summary'
         verbose_name_plural = 'Child Product Sales Summary'
+
+# Added by Chutchai on Sep 26,2020
+# Model for Winspeed
+class SoInvHD(models.Model):
+	soinvid 		= models.IntegerField(primary_key=True)
+	docuno 			= models.CharField(max_length=50,null=True,blank=True)
+	totabaseamnt	= models.FloatField(default=0)
+	vatamnt			= models.FloatField(default=0)
+	netamnt			= models.FloatField(default=0)
+	saledate 		= models.DateTimeField(null=True,blank=True)
+	created 		= models.DateTimeField(auto_now_add=True)#Receiving Date
+	updated 		= models.DateTimeField(auto_now=True)
+	status 			= models.BooleanField(default=False)
+	user 			= models.ForeignKey(settings.AUTH_USER_MODEL,
+							on_delete=models.SET_NULL,blank=True,null=True)
+
+	def __str__(self):
+		return f'{self.soinvid}'
+
+	def get_absolute_url(self):
+		return reverse('sale:soinv', kwargs={'pk': self.pk})
