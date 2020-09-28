@@ -14,6 +14,7 @@ def pull_sale_winspeed():
 def donload_sale(date='2020-09-21'):
     from datetime import datetime
     URL_SALE = f'http://180.183.250.150:8081/api/sale/date/{date}'
+    URL_SALE = f'http://192.168.101.10:8081/api/sale/date/{date}'
     res = requests.get(URL_SALE)
     for item in res.json()['invoices']:
         # print(item)
