@@ -3,7 +3,7 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 from datetime import date
 # Register your models here.
-from .models import Sale,SaleChildDetail,SoInvHD
+from .models import Sale,SaleChildDetail,SoInvHD,SoInvDT
 from product.models import ProductStock,Product
 
 from import_export import resources
@@ -188,6 +188,11 @@ class SaleChildSummaryAdmin(ImportExportModelAdmin,admin.ModelAdmin):
 		response.context_data['summary']=list(reports)
 		return response
 
+class OrderDetailInline(admin.TabularInline):
+	model = SoInvDT
+	fields = ('listno','goodcode','goodname','goodqty','goodamnt')
+	readonly_fields = ('listno','goodcode','goodname','goodqty','goodamnt')
+	extra = 0 # how many rows to show
 
 @admin.register(SoInvHD)
 class SoInvHDAdmin(ImportExportModelAdmin,ImportExportActionModelAdmin,admin.ModelAdmin):
@@ -208,3 +213,19 @@ class SoInvHDAdmin(ImportExportModelAdmin,ImportExportActionModelAdmin,admin.Mod
 		('System Information',{'fields':[('user','created'),'updated']})
 	]
 	# resource_class      = SaleResource
+	inlines =[OrderDetailInline]
+
+@admin.register(SoInvDT)
+class SoInvDTAdmin(ImportExportModelAdmin,ImportExportActionModelAdmin,admin.ModelAdmin):
+	search_fields = ['soinvid','goodcode']
+	# list_filter = [SaleAllProductDateFilter]
+	list_display = ('soinvid','listno','goodcode','goodname','goodqty','goodamnt')
+	# list_editable = ('color','move_performa')
+	# autocomplete_fields = ['product']
+	readonly_fields = ('created','updated','user')
+
+	fieldsets = [
+		('Basic Information',{'fields': ['soinvid','listno','goodid','goodcode','goodname']}),
+		('Price',{'fields': ['goodqty','goodamnt']}),
+		('System Information',{'fields':[('user','created'),'updated']})
+	]
