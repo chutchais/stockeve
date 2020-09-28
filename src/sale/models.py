@@ -227,9 +227,37 @@ class SoInvHD(models.Model):
 	status 			= models.BooleanField(default=False)
 	user 			= models.ForeignKey(settings.AUTH_USER_MODEL,
 							on_delete=models.SET_NULL,blank=True,null=True)
+	executed 		= models.BooleanField(default=False)
 
 	def __str__(self):
 		return f'{self.soinvid}'
 
 	def get_absolute_url(self):
 		return reverse('sale:soinv', kwargs={'pk': self.pk})
+
+class SoInvDT(models.Model):
+	listno				= models.IntegerField()
+	soinvid 			= models.ForeignKey(SoInvHD, null=True,blank = True,
+							on_delete=models.CASCADE,
+							related_name='items')
+	goodid 				= models.IntegerField()
+	goodcode 			= models.CharField(max_length=100,null=True,blank=True)
+	goodname 			= models.CharField(max_length=200,null=True,blank=True)
+	goodqty				= models.IntegerField(default=1)
+	goodamnt 			= models.FloatField(default=0)
+	totalexcludeamnt 	= models.FloatField(default=0)
+	created 			= models.DateTimeField(auto_now_add=True)#Receiving Date
+	updated 			= models.DateTimeField(auto_now=True)
+	status 				= models.BooleanField(default=False)
+	user 				= models.ForeignKey(settings.AUTH_USER_MODEL,
+							on_delete=models.SET_NULL,blank=True,null=True)
+	executed 			= models.BooleanField(default=False)
+
+	class Meta:
+		unique_together = [['listno', 'soinvid']]
+
+	def __str__(self):
+		return f'{self.listno} of {self.soinvid}'
+
+	def get_absolute_url(self):
+		return reverse('sale:soinvdt', kwargs={'pk': self.pk})

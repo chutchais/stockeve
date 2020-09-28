@@ -193,7 +193,7 @@ class SaleChildSummaryAdmin(ImportExportModelAdmin,admin.ModelAdmin):
 class SoInvHDAdmin(ImportExportModelAdmin,ImportExportActionModelAdmin,admin.ModelAdmin):
 	search_fields = ['soinvid','docuno']
 	# list_filter = [SaleAllProductDateFilter]
-	list_display = ('soinvid','docuno','totabaseamnt','vatamnt','netamnt','saledate')
+	list_display = ('soinvid','docuno','totabaseamnt','vatamnt','netamnt','saledate','executed')
 	# list_editable = ('color','move_performa')
 	# autocomplete_fields = ['product']
 	readonly_fields = ('created','updated','user')
@@ -203,7 +203,7 @@ class SoInvHDAdmin(ImportExportModelAdmin,ImportExportActionModelAdmin,admin.Mod
 	list_select_related = True
 
 	fieldsets = [
-		('Basic Information',{'fields': ['soinvid','docuno','saledate']}),
+		('Basic Information',{'fields': ['soinvid','docuno','saledate','executed']}),
 		('Price',{'fields': ['totabaseamnt','vatamnt','netamnt']}),
 		('System Information',{'fields':[('user','created'),'updated']})
 	]
