@@ -97,16 +97,16 @@ def fetch_saleorder(soid):
 	try:
 		conn = connect_db()
 		cur = conn.cursor()
-		sql = f"select s.ListNo,s.SOInvID,s.GoodID,s.GoodName,s.GoodQty2,s.GoodAmnt,e.GoodCode from [dbwins_EMG].[dbo].[SOInvDT] s inner join [dbwins_EMG].[dbo].[EMGood] e on s.GoodID = e.GoodID where s.soinvid={soid}"
-		sql = "select s.ListNo,s.SOInvID,s.GoodID,s.GoodName,"\
-				"s.GoodQty2,s.GoodAmnt,e.GoodCode ,"\
-				"s.InveID,i.InveCode,i.InveName " \
-				"from [dbwins_EMG].[dbo].[SOInvDT] s " \ 
-					"inner join [dbwins_EMG].[dbo].[EMGood] e " \
-					"on s.GoodID = e.GoodID " \
-					"inner join [dbwins_EMG].[dbo].[EMInve] i " \
-					"on s.InveID = i.InveID " \
-				"where s.soinvid=" + str(soid)
+		sql = f"select s.ListNo,s.SOInvID,s.GoodID,s.GoodName,s.GoodQty2,s.GoodAmnt,e.GoodCode,s.InveID,i.InveCode,i.InveName from [dbwins_EMG].[dbo].[SOInvDT] s inner join [dbwins_EMG].[dbo].[EMGood] e on s.GoodID = e.GoodID inner join [dbwins_EMG].[dbo].[EMInve] i on s.InveID = i.InveID  where s.soinvid={soid}"
+		# sql = "select s.ListNo,s.SOInvID,s.GoodID,s.GoodName,"\
+		# 		"s.GoodQty2,s.GoodAmnt,e.GoodCode ,"\
+		# 		"s.InveID,i.InveCode,i.InveName " \
+		# 		"from [dbwins_EMG].[dbo].[SOInvDT] s " \ 
+		# 			"inner join [dbwins_EMG].[dbo].[EMGood] e " \
+		# 			"on s.GoodID = e.GoodID " \
+		# 			"inner join [dbwins_EMG].[dbo].[EMInve] i " \
+		# 			"on s.InveID = i.InveID " \
+		# 		"where s.soinvid=" + str(soid)
 
 		rows = fetch_data(sql,cur)
 		items =[]
