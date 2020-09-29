@@ -206,7 +206,7 @@ class SoInvHDAdmin(ImportExportModelAdmin,ImportExportActionModelAdmin,admin.Mod
 	save_as_continue = True
 	save_on_top =True
 	list_select_related = True
-	ordering = ['saledate','soinvid']
+	ordering = ['-saledate','soinvid']
 
 	fieldsets = [
 		('Basic Information',{'fields': ['soinvid','docuno','saledate','executed']}),
@@ -224,7 +224,7 @@ class SoInvDTAdmin(ImportExportModelAdmin,ImportExportActionModelAdmin,admin.Mod
 	# list_editable = ('color','move_performa')
 	# autocomplete_fields = ['product']
 	readonly_fields = ('created','updated','user')
-	ordering = ['created','soinvid','listno']
+	ordering = ['-created','soinvid','listno']
 
 	fieldsets = [
 		('Basic Information',{'fields': ['soinvid','listno','goodid','goodcode','goodname']}),
