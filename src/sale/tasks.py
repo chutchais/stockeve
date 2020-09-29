@@ -55,6 +55,9 @@ def donload_sale_items(soinv_obj):
         goodname            = item['GoodName']
         goodqty             = item['GoodQty2']
         goodamnt            = item['GoodAmnt']
+        inveid              = item['InveID']
+        invecode            = item['InveCode']
+        invename            = item['InveName']
 
         # saledate        = date_dt3 = datetime.strptime(date, '%Y-%m-%d')
         obj, created = SoInvDT.objects.get_or_create(
