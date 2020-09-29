@@ -190,8 +190,8 @@ class SaleChildSummaryAdmin(ImportExportModelAdmin,admin.ModelAdmin):
 
 class OrderDetailInline(admin.TabularInline):
 	model = SoInvDT
-	fields = ('listno','goodcode','goodname','goodqty','goodamnt')
-	readonly_fields = ('listno','goodcode','goodname','goodqty','goodamnt')
+	fields = ('listno','goodcode','goodname','goodqty','goodamnt','goodcode')
+	readonly_fields = ('listno','goodcode','goodname','goodqty','goodamnt','goodcode')
 	extra = 0 # how many rows to show
 
 @admin.register(SoInvHD)
@@ -206,6 +206,7 @@ class SoInvHDAdmin(ImportExportModelAdmin,ImportExportActionModelAdmin,admin.Mod
 	save_as_continue = True
 	save_on_top =True
 	list_select_related = True
+	ordering = ['saledate','soinvid']
 
 	fieldsets = [
 		('Basic Information',{'fields': ['soinvid','docuno','saledate','executed']}),
@@ -218,14 +219,15 @@ class SoInvHDAdmin(ImportExportModelAdmin,ImportExportActionModelAdmin,admin.Mod
 @admin.register(SoInvDT)
 class SoInvDTAdmin(ImportExportModelAdmin,ImportExportActionModelAdmin,admin.ModelAdmin):
 	search_fields = ['soinvid','goodcode']
-	# list_filter = [SaleAllProductDateFilter]
-	list_display = ('soinvid','listno','goodcode','goodname','goodqty','goodamnt')
+	list_filter = ['invecode']#SaleAllProductDateFilter]
+	list_display = ('soinvid','listno','goodcode','goodname','goodqty','goodamnt','invecode')
 	# list_editable = ('color','move_performa')
 	# autocomplete_fields = ['product']
 	readonly_fields = ('created','updated','user')
+	ordering = ['created','soinvid','listno']
 
 	fieldsets = [
 		('Basic Information',{'fields': ['soinvid','listno','goodid','goodcode','goodname']}),
-		('Price',{'fields': ['goodqty','goodamnt']}),
+		('Price',{'fields': ['goodqty','goodamnt','inveid','invecode','invename']}),
 		('System Information',{'fields':[('user','created'),'updated']})
 	]
