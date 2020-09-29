@@ -190,8 +190,8 @@ class SaleChildSummaryAdmin(ImportExportModelAdmin,admin.ModelAdmin):
 
 class OrderDetailInline(admin.TabularInline):
 	model = SoInvDT
-	fields = ('listno','goodcode','goodname','goodqty','goodamnt','goodcode')
-	readonly_fields = ('listno','goodcode','goodname','goodqty','goodamnt','goodcode')
+	fields = ('listno','goodcode','goodname','goodqty','goodamnt','invecode')
+	readonly_fields = ('listno','goodcode','goodname','goodqty','goodamnt','invecode')
 	extra = 0 # how many rows to show
 
 @admin.register(SoInvHD)
