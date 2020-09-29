@@ -66,7 +66,10 @@ def donload_sale_items(soinv_obj):
                     'goodcode' : goodcode,
                     'goodname' : goodname,
                     'goodqty' : float(goodqty),
-                    'goodamnt':float(goodamnt)
+                    'goodamnt':float(goodamnt),
+                    'inveid' : int(inveid),
+                    'invecode':invecode,
+                    'invename' : invename
                     },
         )
         print(f'Create order detail {goodcode}')

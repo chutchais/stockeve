@@ -246,6 +246,10 @@ class SoInvDT(models.Model):
 	goodqty				= models.IntegerField(default=1)
 	goodamnt 			= models.FloatField(default=0)
 	totalexcludeamnt 	= models.FloatField(default=0)
+	# added on Sep 29,2020 -- To record Stock Detail
+	inveid				= models.IntegerField(null=True,blank=True)
+	invecode			= models.CharField(max_length=50,null=True,blank=True)
+	invename			= models.CharField(max_length=250,null=True,blank=True)
 	created 			= models.DateTimeField(auto_now_add=True)#Receiving Date
 	updated 			= models.DateTimeField(auto_now=True)
 	status 				= models.BooleanField(default=False)
