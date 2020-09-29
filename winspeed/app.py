@@ -98,6 +98,16 @@ def fetch_saleorder(soid):
 		conn = connect_db()
 		cur = conn.cursor()
 		sql = f"select s.ListNo,s.SOInvID,s.GoodID,s.GoodName,s.GoodQty2,s.GoodAmnt,e.GoodCode from [dbwins_EMG].[dbo].[SOInvDT] s inner join [dbwins_EMG].[dbo].[EMGood] e on s.GoodID = e.GoodID where s.soinvid={soid}"
+		sql = "select s.ListNo,s.SOInvID,s.GoodID,s.GoodName,"\
+				"s.GoodQty2,s.GoodAmnt,e.GoodCode ,"\
+				"s.InveID,i.InveCode,i.InveName " \
+				"from [dbwins_EMG].[dbo].[SOInvDT] s " \ 
+					"inner join [dbwins_EMG].[dbo].[EMGood] e " \
+					"on s.GoodID = e.GoodID " \
+					"inner join [dbwins_EMG].[dbo].[EMInve] i " \
+					"on s.InveID = i.InveID " \
+				"where s.soinvid=" + str(soid)
+
 		rows = fetch_data(sql,cur)
 		items =[]
 		for row in rows:
@@ -108,7 +118,10 @@ def fetch_saleorder(soid):
 				'GoodName':row.GoodName,
 				'GoodQty2':str(row.GoodQty2),
 				'GoodAmnt': str(row.GoodAmnt),
-				'ListNo' : row.ListNo
+				'ListNo' : row.ListNo,
+				'InveID' : str(row.InveID),
+				'InveCode': str(row.InveCode),
+				'InveName': row.InveName
 			}
 			items.append(row_json)
 		jdata ={
