@@ -10,6 +10,8 @@ from django.db.models.signals import post_save,pre_save,pre_delete
 from store.models 		import Store
 from product.models 	import Product,ProductStock
 
+from django_q.tasks import async_task
+
 class Receiving(models.Model):
 	store 			= models.ForeignKey(Store, null=True,blank = True,
 					on_delete=models.SET_NULL,
@@ -194,7 +196,8 @@ def pre_save_inspection_receiver(sender, instance, *args, **kwargs):
 		
 
 		instance.status = False
-	update_stock(instance.receiving.product)
+	# update_stock(instance.receiving.product)
+	async_task('product.tasks.update_max_stock',instance.receiving.product)
 
 
 	# obj, created = ProductStock.objects.get_or_create(
@@ -231,15 +234,15 @@ pre_delete.connect(pre_delete_inspection_receiver, sender=Inspection)
 
 
 
-def update_stock(product):
-	print('Update Product Max Stock')
-	from django.db.models import Sum
-	x = product.stocks.filter(store__sale_able=True).aggregate(Sum('qty'))
-	qty = int(x['qty__sum']) if x['qty__sum'] else 0
-	if product.max_stock > 0 :
-		product.higher_stock 	= qty > product.max_stock
-		product.save()
+# def update_stock(product):
+# 	print('Update Product Max Stock')
+# 	from django.db.models import Sum
+# 	x = product.stocks.filter(store__sale_able=True).aggregate(Sum('qty'))
+# 	qty = int(x['qty__sum']) if x['qty__sum'] else 0
+# 	if product.max_stock > 0 :
+# 		product.higher_stock 	= qty > product.max_stock
+# 		product.save()
 
-	if product.min_stock > 0 :
-		product.lower_stock 	= product.min_stock > qty
-		product.save()
+# 	if product.min_stock > 0 :
+# 		product.lower_stock 	= product.min_stock > qty
+# 		product.save()

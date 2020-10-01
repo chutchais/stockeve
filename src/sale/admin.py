@@ -220,14 +220,14 @@ class SoInvHDAdmin(ImportExportModelAdmin,ImportExportActionModelAdmin,admin.Mod
 class SoInvDTAdmin(ImportExportModelAdmin,ImportExportActionModelAdmin,admin.ModelAdmin):
 	search_fields = ['soinvid','goodcode']
 	list_filter = ['invecode']#SaleAllProductDateFilter]
-	list_display = ('soinvid','listno','goodcode','goodname','goodqty','goodamnt','invecode')
+	list_display = ('soinvid','listno','goodcode','goodname','goodqty','goodamnt','invecode','executed')
 	# list_editable = ('color','move_performa')
 	# autocomplete_fields = ['product']
 	readonly_fields = ('created','updated','user')
 	ordering = ['-created','soinvid','listno']
 
 	fieldsets = [
-		('Basic Information',{'fields': ['soinvid','listno','goodid','goodcode','goodname']}),
+		('Basic Information',{'fields': ['soinvid','listno','goodid','goodcode','goodname','executed']}),
 		('Price',{'fields': ['goodqty','goodamnt','inveid','invecode','invename']}),
 		('System Information',{'fields':[('user','created'),'updated']})
 	]

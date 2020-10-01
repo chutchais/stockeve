@@ -1,5 +1,5 @@
 import requests
-from sale.models import SoInvHD,SoInvDT
+from sale.models import Sale,SoInvHD,SoInvDT
 
 def pull_sale_winspeed():
     import datetime, pytz
@@ -44,8 +44,6 @@ def donload_sale_items(soinv_obj):
     URL_SALE_ITEM = f'http://180.183.250.150:8081/api/saleorder/{soinv_obj.soinvid}'
     URL_SALE_ITEM = f'http://192.168.101.10:8081/api/saleorder/{soinv_obj.soinvid}'
     print (URL_SALE_ITEM)
-    # URL_SALE_ITEM = f'http://192.168.101.10:8081/api/saleorder/{soinv}'
-    # URL_SALE = f'http://192.168.101.10:8081/api/sale/date/{date}'
     res = requests.get(URL_SALE_ITEM)
     for item in res.json()['items']:
         # soinvid             = item['SOInvID']
@@ -78,3 +76,28 @@ def donload_sale_items(soinv_obj):
         # http://192.168.101.10:8081/api/saleorder/99551
         if created:
             pass
+
+
+from product.models import Product
+from store.models import Store
+
+def add_to_sale(product_code,store_code,qty=0,price=0,description=''):
+    print(f'Add Sale : {product_code} ,{store_code} ,{qty} ,{price} ,{description}')
+    # Verify Product
+    product,created = Product.objects.get_or_create(
+                            number=product_code,
+                            defaults={
+                                'finished_goods': True,
+                                'title':description,
+                                'description':description}
+                            )
+    # Verify Store
+    store,created = Store.objects.get_or_create(
+                            name = store_code,
+                            defaults ={
+                                'title':store_code,
+                                'sale_able':True}
+                            )
+    
+    sale = Sale.objects.create(product=product,store=store,qty=qty,price=price,description=description)
+    print('Save Sale successful..')

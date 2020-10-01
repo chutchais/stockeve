@@ -6,6 +6,7 @@ from django.core.validators import RegexValidator
 from django.conf import settings
 from django.db.models.signals import post_save,pre_save,pre_delete
 
+from django_q.tasks import async_task
 # Create your models here.
 from store.models import Store
 from product.models import Product,ProductStock
@@ -118,7 +119,8 @@ def pre_save_sale_receiver(sender, instance, *args, **kwargs):
 				# instance.store = objp.first().store
 				instance.productstock = objp.first()
 
-			update_min_stock(instance.product)
+			# update_min_stock(instance.product)
+			async_task('product.tasks.update_min_stock',instance.productstock.product)
 
 		except ProductStock.DoesNotExist:
 			obj = None
@@ -148,7 +150,8 @@ def pre_delete_sale_receiver(sender, instance, *args, **kwargs):
 							objp.qty = objp.qty + instance.qty 
 							objp.save()
 
-					update_min_stock(instance.productstock.product)
+					# update_min_stock(instance.productstock.product)
+					async_task('product.tasks.update_min_stock',instance.productstock.product)
 			# --------------------
 		except ProductStock.DoesNotExist:
 			obj = None
@@ -157,22 +160,20 @@ def pre_delete_sale_receiver(sender, instance, *args, **kwargs):
 # pre_delete.connect(pre_delete_sale_receiver, sender=Sale)
 
 
-def update_min_stock(product):
-	print('Update Product Stock')
-	from django.db.models import Sum
-	x = product.stocks.filter(store__sale_able=True).aggregate(Sum('qty'))
-	qty = int(x['qty__sum']) if x['qty__sum'] else 0
-	if product.max_stock > 0 :
-		product.higher_stock 	= qty > product.max_stock
-		product.save()
+# def update_min_stock(product):
+# 	print('Update Product Stock')
+# 	from django.db.models import Sum
+# 	x = product.stocks.filter(store__sale_able=True).aggregate(Sum('qty'))
+# 	qty = int(x['qty__sum']) if x['qty__sum'] else 0
+# 	if product.max_stock > 0 :
+# 		product.higher_stock 	= qty > product.max_stock
+# 		product.save()
 
-	if product.min_stock > 0 :
-		product.lower_stock 	= product.min_stock > qty
-		product.save()
+# 	if product.min_stock > 0 :
+# 		product.lower_stock 	= product.min_stock > qty
+# 		product.save()
 		
-	# product.lower_stock 	= product.min_stock > qty
-	# product.higher_stock 	= qty > product.max_stock
-	# product.save()
+
 
 
 
@@ -265,3 +266,14 @@ class SoInvDT(models.Model):
 
 	def get_absolute_url(self):
 		return reverse('sale:soinvdt', kwargs={'pk': self.pk})
+
+def post_save_soinvdt_receiver(sender, instance,created, *args, **kwargs):
+	# if not instance.executed :
+	if created :
+		async_task('sale.tasks.add_to_sale',instance.goodcode,instance.invecode,
+					instance.goodqty,instance.goodamnt,instance.goodname)
+		instance.executed = True
+		instance.save()
+		# print (f'Saved data of {instance.goodcode} -- {instance.invecode}')
+
+post_save.connect(post_save_soinvdt_receiver, sender=SoInvDT)
