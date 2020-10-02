@@ -120,7 +120,7 @@ def pre_save_sale_receiver(sender, instance, *args, **kwargs):
 				instance.productstock = objp.first()
 
 			# update_min_stock(instance.product)
-			async_task('product.tasks.update_min_stock',instance.productstock.product)
+			async_task('product.tasks.update_min_stock',instance.product)
 
 		except ProductStock.DoesNotExist:
 			obj = None
