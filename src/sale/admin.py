@@ -105,7 +105,7 @@ class SaleAllProductDateFilter(admin.SimpleListFilter):
 class SaleAdmin(ImportExportModelAdmin,ImportExportActionModelAdmin,admin.ModelAdmin):
 	search_fields = ['name','title','product__name']
 	list_filter = [SaleAllProductDateFilter]
-	list_display = ('product','store','qty','price','salename','balance','created','status')
+	list_display = ('product','store','qty','price','balance','salename','created','status')
 	# list_editable = ('color','move_performa')
 	autocomplete_fields = ['product']
 	readonly_fields = ('balance','created','updated','user')
@@ -218,7 +218,7 @@ class SoInvHDAdmin(ImportExportModelAdmin,ImportExportActionModelAdmin,admin.Mod
 
 @admin.register(SoInvDT)
 class SoInvDTAdmin(ImportExportModelAdmin,ImportExportActionModelAdmin,admin.ModelAdmin):
-	search_fields = ['soinvid','goodcode']
+	search_fields = ['soinvid__soinvid','soinvid__docuno','goodcode','goodname']
 	list_filter = ['invecode']#SaleAllProductDateFilter]
 	list_display = ('soinvid','listno','goodcode','goodname','goodqty','goodamnt','invecode','executed')
 	# list_editable = ('color','move_performa')
