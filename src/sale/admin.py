@@ -103,7 +103,7 @@ class SaleAllProductDateFilter(admin.SimpleListFilter):
 # @admin.enable_action('delete_selected')
 @admin.register(Sale)
 class SaleAdmin(ImportExportModelAdmin,ImportExportActionModelAdmin,admin.ModelAdmin):
-	search_fields = ['name','title','product__name']
+	search_fields = ['product__number','product__title']
 	list_filter = [SaleAllProductDateFilter]
 	list_display = ('product','store','qty','price','balance','salename','created','status')
 	# list_editable = ('color','move_performa')
