@@ -115,8 +115,16 @@ def pre_delete_receiving_receiver(sender, instance, *args, **kwargs):
 	# print(instance.min_stock > qty)
 	# instance.lower_stock = instance.min_stock > qty
 
+def post_save_receiving_receiver(sender,created, instance, *args, **kwargs):
+	if created :
+		print('Create new Receiving')
+		# update_min_stock(instance.product)
+		async_task('product.tasks.update_min_stock',instance.product)
 
-# pre_save.connect(pre_save_receiving_receiver, sender=Receiving)
+
+
+post_save.connect(post_save_receiving_receiver, sender=Receiving)
+
 pre_delete.connect(pre_delete_receiving_receiver, sender=Receiving)
 
 
@@ -208,6 +216,9 @@ def pre_save_inspection_receiver(sender, instance, *args, **kwargs):
 	# if not created:
 	# 	obj.qty = obj.qty + instance.qty
 	# 	obj.save()
+
+
+
 
 
 pre_save.connect(pre_save_inspection_receiver, sender=Inspection)

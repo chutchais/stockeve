@@ -9,6 +9,7 @@ from django.core.mail import send_mail
 from store.models import Store
 
 from django.contrib.sites.models import Site
+from django_q.tasks import async_task
 
 class Brand(models.Model):
 	name 				= models.CharField(max_length=500,primary_key=True,
@@ -198,38 +199,39 @@ class Product(models.Model):
 	total_unsale_qty.fget.short_description = "Unsale QTY"
 
 def pre_save_product_receiver(sender, instance, *args, **kwargs):
+	pass
+	# update_min_stock(instance.product)
+	# async_task('product.tasks.update_min_stock',instance)
+	# from django.db.models import Sum
+	# if instance.childs.count() > 0 :
+	# 	# print('Has child' , instance.total_qty)
+	# 	instance.lower_stock = instance.min_stock > instance.total_qty
+	# else:
+	# 	# Top product (No Child)
+	# 	x = instance.stocks.filter(store__sale_able=True).aggregate(Sum('qty'))
+	# 	qty = int(x['qty__sum']) if x['qty__sum'] else 0
+	# 	instance.lower_stock = instance.min_stock > qty
 
+	# # Added by Chutchai on Apr 26,2020
+	# # To Send Email if lower_stock is True
+	# if instance.lower_stock :
+	# 	from django.template.loader import render_to_string
+	# 	html_message  = render_to_string('product/email_lacking_stock.html', 
+	# 		{'object': instance })
 
-	from django.db.models import Sum
-	if instance.childs.count() > 0 :
-		# print('Has child' , instance.total_qty)
-		instance.lower_stock = instance.min_stock > instance.total_qty
-	else:
-		# Top product (No Child)
-		x = instance.stocks.filter(store__sale_able=True).aggregate(Sum('qty'))
-		qty = int(x['qty__sum']) if x['qty__sum'] else 0
-		instance.lower_stock = instance.min_stock > qty
+	# 	from django.conf import settings as conf_settings
+	# 	recipient_list 	= conf_settings.EMAIL_RECIPIENT_LACKING_LIST
+	# 	from_email 		= conf_settings.DEFAULT_FROM_EMAIL
 
-	# Added by Chutchai on Apr 26,2020
-	# To Send Email if lower_stock is True
-	if instance.lower_stock :
-		from django.template.loader import render_to_string
-		html_message  = render_to_string('product/email_lacking_stock.html', 
-			{'object': instance })
-
-		from django.conf import settings as conf_settings
-		recipient_list 	= conf_settings.EMAIL_RECIPIENT_LACKING_LIST
-		from_email 		= conf_settings.DEFAULT_FROM_EMAIL
-
-		send_mail(
-		subject= f'ALERT! - Lacking stock of : {instance.number} ',
-		message = None,
-		from_email=from_email,
-		recipient_list=recipient_list,
-		fail_silently=False,
-		auth_user=None,auth_password=None,connection=None,
-		html_message=html_message
-		)
+	# 	send_mail(
+	# 	subject= f'ALERT! - Lacking stock of : {instance.number} ',
+	# 	message = None,
+	# 	from_email=from_email,
+	# 	recipient_list=recipient_list,
+	# 	fail_silently=False,
+	# 	auth_user=None,auth_password=None,connection=None,
+	# 	html_message=html_message
+	# 	)
 
 
 pre_save.connect(pre_save_product_receiver, sender=Product)

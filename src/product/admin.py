@@ -9,11 +9,16 @@ from import_export.admin import ImportExportModelAdmin
 from import_export.admin import ImportExportActionModelAdmin
 
 # # Register your models here.
-
+from import_export.fields import Field
 class ProductResource(resources.ModelResource):
+	total_qty = Field(attribute='total_qty',readonly =True)
 	class Meta:
 		model = Product
 		import_id_fields = ('number',)
+		fields = ('number','title','description','childs','brand','subfamily','finished_goods','total_qty',
+				'min_stock','max_stock','lower_stock','higher_stock','unit_name','note','status')
+		export_order = ('number','title','description','childs','brand','subfamily','finished_goods','total_qty',
+				'min_stock','max_stock','lower_stock','higher_stock','unit_name','note','status')
 		skip_unchanged = True
 		report_skipped= True
 		exclude = ('user','created','updated' )
