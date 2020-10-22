@@ -183,7 +183,9 @@ class SaleChildSummaryAdmin(ImportExportModelAdmin,admin.ModelAdmin):
 		# 	hours   = hours + (1 if mod_minute >= 30 else 0)
 		# 	r['mod_minute'] = mod_minute
 		# 	r['total_hours'] = hours
-		reports     = qs
+		# reports     = qs
+		# Edit on Oct 22,2020 -- To limit max 500 records 
+		reports     = qs[:500]
 
 		response.context_data['summary']=list(reports)
 		return response

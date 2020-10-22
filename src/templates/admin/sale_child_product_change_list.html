@@ -7,6 +7,8 @@
 <!-- 'product','store','qty','price','salename','balance','created','status' -->
 
 {% block result_list %}
+
+<a href="{% url 'sale:export_sale_child_xls' %}">Download to Excel</a>
     <!-- Our content goes here... -->
     <div class="results">
     <table>
