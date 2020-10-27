@@ -74,10 +74,11 @@
     <tbody>
       <!-- 'product','store','qty','price','salename','balance','created','status' -->
       {% for row in summary %}
-      <tr class="{% cycle 'row1' 'row2' %}">
+      
         {% if row.product.childs.count > 0 %}
         <!-- Show Child product -->
         {% for p in row.product.childs.all %}
+        <tr class="{% cycle 'row1' 'row2' %}">
         	<td> <a href="{% url 'admin:product_product_change' p.pk %}">{{ p }}</a> </td>
           <td><a href="{% url 'admin:product_product_change' row.product.pk %}"> {{ row.product }} </a></td>
         	<td> {{ row.store | default:'' }} </td>
@@ -93,10 +94,11 @@
               <img src="/static/admin/img/icon-no.svg" alt="True">
             {% endif %}
           </td>
-            
+        </tr>
           {% endfor %}
           <!-- End for -->
         {% else %}
+        <tr class="{% cycle 'row1' 'row2' %}">
           <!-- Show Single Product -->
           <td> <a href="{% url 'admin:product_product_change' row.product.pk %}"> {{ row.product }} </a> </td>
           <td> </td>
@@ -113,9 +115,10 @@
               <img src="/static/admin/img/icon-no.svg" alt="True">
             {% endif %}
           </td>
+        </tr>
         {% endif %}
         
-      </tr>
+      
       {% endfor %}
     </tbody>
 
