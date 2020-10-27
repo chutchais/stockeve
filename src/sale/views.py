@@ -96,7 +96,7 @@ def export_sale_child_xls(request):
 		print('this month',today.year,today.month)
 		qs = SaleChildDetail.objects.filter(created__year=today.year,
 							created__month=today.month).order_by('created')
-		qs = SaleChildDetail.objects.all()
+		# qs = SaleChildDetail.objects.all()
 
 	if created == 'lastmonth':
 		import datetime

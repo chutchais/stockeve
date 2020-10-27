@@ -8,7 +8,7 @@
 
 {% block result_list %}
 
-<a href="{% url 'sale:export_sale_child_xls' %}">Download to Excel</a>
+<a href="{% url 'sale:export_sale_child_xls' %}?created={{request.GET.created}}">Download to Excel ({{request.GET.created|title}})</a>
     <!-- Our content goes here... -->
     <div class="results">
     <table>
