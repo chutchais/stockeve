@@ -33,6 +33,7 @@ class Sale(models.Model):
 	status 			= models.BooleanField(default=False)
 	user 			= models.ForeignKey(settings.AUTH_USER_MODEL,
 							on_delete=models.SET_NULL,blank=True,null=True)
+	saledate 		= models.DateTimeField(null=True,blank=True)
 
 	def __str__(self):
 		return f'{self.product}'
@@ -271,7 +272,7 @@ def post_save_soinvdt_receiver(sender, instance,created, *args, **kwargs):
 	# if not instance.executed :
 	if created :
 		async_task('sale.tasks.add_to_sale',instance.goodcode,instance.invecode,
-					instance.created,instance.goodqty,
+					instance.soinvid.saledate,instance.goodqty,
 					instance.goodamnt,instance.goodname)
 		instance.executed = True
 		instance.save()
