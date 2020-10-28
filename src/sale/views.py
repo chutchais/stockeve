@@ -106,6 +106,9 @@ def export_sale_child_xls(request):
 							created__month=today.month).order_by('created')
 	# print(qs)
 	
+	import datetime, pytz
+	tz = pytz.timezone('Asia/Bangkok')
+
 	for row in qs :
 		if row.product.childs.count() > 0:
 			# Child level
@@ -119,7 +122,7 @@ def export_sale_child_xls(request):
 				ws.write(row_num, 5, str(row.price), font_style)
 				ws.write(row_num, 6, str(row.salename), font_style)
 				ws.write(row_num, 7, str(row.balance), font_style)
-				ws.write(row_num, 8, str(row.created), font_style)
+				ws.write(row_num, 8, str(row.created.astimezone(tz)), font_style)
 		else:
 			# Single level
 			row_num += 1
@@ -131,7 +134,7 @@ def export_sale_child_xls(request):
 			ws.write(row_num, 5, str(row.price), font_style)
 			ws.write(row_num, 6, str(row.salename), font_style)
 			ws.write(row_num, 7, str(row.balance), font_style)
-			ws.write(row_num, 8, str(row.created), font_style)
+			ws.write(row_num, 8, str(row.created.astimezone(tz)), font_style)
 
 	wb.save(response)
 	return response
