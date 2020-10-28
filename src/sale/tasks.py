@@ -69,7 +69,7 @@ def donload_sale_items(soinv_obj):
                     'inveid' : int(inveid),
                     'invecode':invecode,
                     'invename' : invename,
-                    'created':obj.created
+                    'created':soinv_obj.created
                     },
         )
         print(f'Create order detail {goodcode}')
