@@ -32,7 +32,7 @@ from .models import Sale,SaleChildDetail
 
 
 def export_sale_child_xls(request):
-	created = request.GET.get('created','today')#default 'today'
+	created = request.GET.get('saledate','today')#default 'today'
 	# Modify by Chutchai on July 30,2020
 	created = 'today' if created == None or created == '' else created
 
@@ -61,23 +61,23 @@ def export_sale_child_xls(request):
 	from datetime import date
 	if created == 'today':
 		today = date.today()
-		qs = SaleChildDetail.objects.filter(created__year=today.year,
-							created__month=today.month,
-							created__day=today.day).order_by('created')
+		qs = Sale.objects.filter(saledate__year=today.year,
+							saledate__month=today.month,
+							saledate__day=today.day).order_by('created')
 
 	if created == 'yesterday':
 		import datetime
 		today = date.today() - datetime.timedelta(days=1)
-		qs = SaleChildDetail.objects.filter(created__year=today.year,
-							created__month=today.month,
-							created__day=today.day).order_by('created')
+		qs = Sale.objects.filter(saledate__year=today.year,
+							saledate__month=today.month,
+							saledate__day=today.day).order_by('created')
 	
 	if created == 'thisweek':
 		import datetime
 		date = datetime.date.today()
 		start_week = date - datetime.timedelta(date.weekday())
 		end_week = start_week + datetime.timedelta(7)
-		qs = SaleChildDetail.objects.filter(created__range=[start_week, end_week]).order_by('created')
+		qs = Sale.objects.filter(saledate__range=[start_week, end_week]).order_by('created')
 
 	if created == 'lastweek':
 		import datetime
@@ -89,21 +89,21 @@ def export_sale_child_xls(request):
 		# date = end_week + datetime.timedelta(days=1)
 		# start_week = date - datetime.timedelta(date.weekday())
 		# end_week = start_week + datetime.timedelta(7)
-		qs = SaleChildDetail.objects.filter(created__range=[start_week, end_week]).order_by('created')
+		qs = Sale.objects.filter(saledate__range=[start_week, end_week]).order_by('created')
 
 	if created == 'thismonth':
 		today = date.today()
 		print('this month',today.year,today.month)
-		qs = SaleChildDetail.objects.filter(created__year=today.year,
-							created__month=today.month).order_by('created')
+		qs = Sale.objects.filter(saledate__year=today.year,
+							saledate__month=today.month).order_by('created')
 		# qs = SaleChildDetail.objects.all()
 
 	if created == 'lastmonth':
 		import datetime
 		today = date.today().replace(day=1) - datetime.timedelta(days=1)
 		print('last month',today)
-		qs = SaleChildDetail.objects.filter(created__year=today.year,
-							created__month=today.month).order_by('created')
+		qs = Sale.objects.filter(saledate__year=today.year,
+							saledate__month=today.month).order_by('created')
 	# print(qs)
 	
 	import datetime, pytz
@@ -122,7 +122,7 @@ def export_sale_child_xls(request):
 				ws.write(row_num, 5, str(row.price), font_style)
 				ws.write(row_num, 6, str(row.salename), font_style)
 				ws.write(row_num, 7, str(row.balance), font_style)
-				ws.write(row_num, 8, str(row.created.astimezone(tz)), font_style)
+				ws.write(row_num, 8, str(row.saledate.astimezone(tz)), font_style)
 		else:
 			# Single level
 			row_num += 1
@@ -134,7 +134,7 @@ def export_sale_child_xls(request):
 			ws.write(row_num, 5, str(row.price), font_style)
 			ws.write(row_num, 6, str(row.salename), font_style)
 			ws.write(row_num, 7, str(row.balance), font_style)
-			ws.write(row_num, 8, str(row.created.astimezone(tz)), font_style)
+			ws.write(row_num, 8, str(row.saledate.astimezone(tz)), font_style)
 
 	wb.save(response)
 	return response

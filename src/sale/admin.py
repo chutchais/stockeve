@@ -27,7 +27,7 @@ class SaleAllProductDateFilter(admin.SimpleListFilter):
 	title = _('All Product Date Range')
 
 	# Parameter for the filter that will be used in the URL query.
-	parameter_name = 'created'
+	parameter_name = 'saledate'
 
 	def lookups(self, request, model_admin):
 		"""
@@ -108,7 +108,7 @@ class SaleAdmin(ImportExportModelAdmin,ImportExportActionModelAdmin,admin.ModelA
 	list_display = ('product','store','qty','price','balance','salename','saledate','status')
 	# list_editable = ('color','move_performa')
 	autocomplete_fields = ['product']
-	readonly_fields = ('balance','updated','user')
+	readonly_fields = ('balance','updated','user','created')
 	save_as = True
 	save_as_continue = True
 	save_on_top =True
@@ -117,7 +117,7 @@ class SaleAdmin(ImportExportModelAdmin,ImportExportActionModelAdmin,admin.ModelA
 	fieldsets = [
 		('Basic Information',{'fields': ['product','store','qty','price','description','salename','saledate']}),
 		('Stock',{'fields': ['balance']}),
-		('System Information',{'fields':[('user'),'updated']})
+		('System Information',{'fields':[('user','created'),'updated']})
 	]
 	resource_class      = SaleResource
 
@@ -203,7 +203,7 @@ class SoInvHDAdmin(ImportExportModelAdmin,ImportExportActionModelAdmin,admin.Mod
 	list_display = ('soinvid','docuno','totabaseamnt','vatamnt','netamnt','saledate','executed')
 	# list_editable = ('color','move_performa')
 	# autocomplete_fields = ['product']
-	readonly_fields = ('updated','user')
+	readonly_fields = ('created','updated','user')
 	save_as = True
 	save_as_continue = True
 	save_on_top =True
@@ -213,7 +213,7 @@ class SoInvHDAdmin(ImportExportModelAdmin,ImportExportActionModelAdmin,admin.Mod
 	fieldsets = [
 		('Basic Information',{'fields': ['soinvid','docuno','saledate','executed']}),
 		('Price',{'fields': ['totabaseamnt','vatamnt','netamnt']}),
-		('System Information',{'fields':[('user'),'updated']})
+		('System Information',{'fields':[('user','created'),'updated']})
 	]
 	# resource_class      = SaleResource
 	inlines =[OrderDetailInline]
@@ -225,11 +225,11 @@ class SoInvDTAdmin(ImportExportModelAdmin,ImportExportActionModelAdmin,admin.Mod
 	list_display = ('soinvid','listno','goodcode','goodname','goodqty','goodamnt','invecode','executed')
 	# list_editable = ('color','move_performa')
 	# autocomplete_fields = ['product']
-	readonly_fields = ('updated','user')
+	readonly_fields = ('updated','user','created')
 	ordering = ['-created','soinvid','listno']
 
 	fieldsets = [
 		('Basic Information',{'fields': ['soinvid','listno','goodid','goodcode','goodname','executed']}),
 		('Price',{'fields': ['goodqty','goodamnt','inveid','invecode','invename']}),
-		('System Information',{'fields':[('user'),'updated']})
+		('System Information',{'fields':[('user','created'),'updated']})
 	]
