@@ -271,7 +271,8 @@ def post_save_soinvdt_receiver(sender, instance,created, *args, **kwargs):
 	# if not instance.executed :
 	if created :
 		async_task('sale.tasks.add_to_sale',instance.goodcode,instance.invecode,
-					instance.goodqty,instance.goodamnt,instance.goodname)
+					instance.created,instance.goodqty,
+					instance.goodamnt,instance.goodname)
 		instance.executed = True
 		instance.save()
 		# print (f'Saved data of {instance.goodcode} -- {instance.invecode}')

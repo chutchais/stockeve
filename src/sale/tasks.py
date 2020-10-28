@@ -23,7 +23,8 @@ def donload_sale(date='2020-09-21'):
         totabaseamnt    = item['TotaBaseAmnt']
         vatamnt         = item['VATAmnt']
         netamnt         = item['NetAmnt']
-        saledate        = date_dt3 = datetime.strptime(date, '%Y-%m-%d')
+        # saledate        = date_dt3 = datetime.strptime(date, '%Y-%m-%d')
+        saledate        = datetime.strptime(date, '%Y-%m-%d')
         obj, created = SoInvHD.objects.get_or_create(
             soinvid=int(soinvid),
             defaults={'docuno': docuno,
@@ -67,7 +68,8 @@ def donload_sale_items(soinv_obj):
                     'goodamnt':float(goodamnt),
                     'inveid' : int(inveid),
                     'invecode':invecode,
-                    'invename' : invename
+                    'invename' : invename,
+                    'created':obj.created
                     },
         )
         print(f'Create order detail {goodcode}')
@@ -81,7 +83,7 @@ def donload_sale_items(soinv_obj):
 from product.models import Product
 from store.models import Store
 
-def add_to_sale(product_code,store_code,qty=0,price=0,description=''):
+def add_to_sale(product_code,store_code,created,qty=0,price=0,description=''):
     print(f'Add Sale : {product_code} ,{store_code} ,{qty} ,{price} ,{description}')
     # Verify Product
     product,created = Product.objects.get_or_create(
@@ -99,5 +101,7 @@ def add_to_sale(product_code,store_code,qty=0,price=0,description=''):
                                 'sale_able':True}
                             )
     
-    sale = Sale.objects.create(product=product,store=store,qty=qty,price=price,description=description)
+    sale = Sale.objects.create(product=product,
+                    store=store,qty=qty,
+                    price=price,description=description,created=created)
     print('Save Sale successful..')
