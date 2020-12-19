@@ -226,7 +226,7 @@ def fetch_receiveorder(poid):
 	try:
 		conn = connect_db()
 		cur = conn.cursor()
-		sql = f"select s.ListNo,s.POInvID,s.GoodID,s.GoodName,s.GoodQty2,s.GoodAmnt,e.GoodCode,s.InveID,i.InveCode,i.InveName from [dbwins_EMG].[dbo].[POInvDT] s inner join [dbwins_EMG].[dbo].[EMGood] e on s.GoodID = e.GoodID inner join [dbwins_EMG].[dbo].[EMInve] i on s.InveID = i.InveID  where s.POInvID={soid}"
+		sql = f"select s.ListNo,s.POInvID,s.GoodID,s.GoodName,s.GoodQty2,s.GoodAmnt,e.GoodCode,s.InveID,i.InveCode,i.InveName from [dbwins_EMG].[dbo].[POInvDT] s inner join [dbwins_EMG].[dbo].[EMGood] e on s.GoodID = e.GoodID inner join [dbwins_EMG].[dbo].[EMInve] i on s.InveID = i.InveID  where s.POInvID={poid}"
 		rows = fetch_data(sql,cur)
 		items =[]
 		for row in rows:
