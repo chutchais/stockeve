@@ -221,6 +221,45 @@ def fetch_receive_by_date(day):
 	response.headers["Content-Type"] = "text/json; charset=utf-8"
 	return response
 
+@app.route('/api/receiveorder/<poid>', methods=['GET'])
+def fetch_receiveorder(poid):
+	try:
+		conn = connect_db()
+		cur = conn.cursor()
+		sql = f"select s.ListNo,s.POInvID,s.GoodID,s.GoodName,s.GoodQty2,s.GoodAmnt,e.GoodCode,s.InveID,i.InveCode,i.InveName from [dbwins_EMG].[dbo].[POInvDT] s inner join [dbwins_EMG].[dbo].[EMGood] e on s.GoodID = e.GoodID inner join [dbwins_EMG].[dbo].[EMInve] i on s.InveID = i.InveID  where s.POInvID={soid}"
+		rows = fetch_data(sql,cur)
+		items =[]
+		for row in rows:
+			row_json = {
+				'POInvID': row.POInvID,
+				'GoodCode':row.GoodCode,
+				'GoodID':row.GoodID,
+				'GoodName':row.GoodName,
+				'GoodQty2':str(row.GoodQty2),
+				'GoodAmnt': str(row.GoodAmnt),
+				'ListNo' : row.ListNo,
+				'InveID' : str(row.InveID),
+				'InveCode': str(row.InveCode),
+				'InveName': row.InveName
+			}
+			items.append(row_json)
+		jdata ={
+			"sql" : sql,
+			"rows" : len(rows),
+			"status":f"Fetch receive order {soid} is sucessful",
+			"items": items}
+		cur.close()
+		conn.close()
+	except Exception as e :
+		jdata ={
+			"sql" : sql,
+			"status":f"Unable to connect database : {e}"
+			}
+	# response=jsonify(jdata)
+	# response.headers.add('Access-Control-Allow-Origin', '*')
+	# return response
+	return json.dumps(jdata, indent=4,ensure_ascii=False).encode('utf8') ,200
+
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0',debug=True)
