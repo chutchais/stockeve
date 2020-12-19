@@ -258,7 +258,11 @@ def fetch_receiveorder(poid):
 	# response=jsonify(jdata)
 	# response.headers.add('Access-Control-Allow-Origin', '*')
 	# return response
-	return json.dumps(jdata, indent=4,ensure_ascii=False).encode('utf8') ,200
+	# return json.dumps(jdata, indent=4,ensure_ascii=False).encode('utf8') ,200
+	response=jsonify(jdata)
+	response.headers.add('Access-Control-Allow-Origin', '*')
+	response.headers["Content-Type"] = "text/json; charset=utf-8"
+	return response
 
 
 if __name__ == '__main__':
