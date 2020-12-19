@@ -257,3 +257,70 @@ pre_delete.connect(pre_delete_inspection_receiver, sender=Inspection)
 # 	if product.min_stock > 0 :
 # 		product.lower_stock 	= product.min_stock > qty
 # 		product.save()
+
+
+# Added by Chutchai on Dec 19,2020
+# Model for Winspeed
+class PoInvHD(models.Model):
+	poinvid 		= models.IntegerField(primary_key=True)
+	docuno 			= models.CharField(max_length=50,null=True,blank=True)
+	totabaseamnt	= models.FloatField(default=0)
+	vatamnt			= models.FloatField(default=0)
+	netamnt			= models.FloatField(default=0)
+	vendorname 		= models.CharField(max_length=250,null=True,blank=True) 
+	receivedate 	= models.DateTimeField(null=True,blank=True)
+	created 		= models.DateTimeField(auto_now_add=True)#Receiving Date
+	updated 		= models.DateTimeField(auto_now=True)
+	status 			= models.BooleanField(default=False)
+	user 			= models.ForeignKey(settings.AUTH_USER_MODEL,
+							on_delete=models.SET_NULL,blank=True,null=True)
+	executed 		= models.BooleanField(default=False)
+
+	def __str__(self):
+		return f'{self.poinvid}'
+
+	def get_absolute_url(self):
+		return reverse('receive:poinv', kwargs={'pk': self.pk})
+
+class PoInvDT(models.Model):
+	listno				= models.IntegerField()
+	poinvid 			= models.ForeignKey(PoInvHD, null=True,blank = True,
+							on_delete=models.CASCADE,
+							related_name='items')
+	goodid 				= models.IntegerField()
+	goodcode 			= models.CharField(max_length=100,null=True,blank=True)
+	goodname 			= models.CharField(max_length=200,null=True,blank=True)
+	goodqty				= models.IntegerField(default=1)
+	goodamnt 			= models.FloatField(default=0)
+	totalexcludeamnt 	= models.FloatField(default=0)
+	# added on Sep 29,2020 -- To record Stock Detail
+	inveid				= models.IntegerField(null=True,blank=True)
+	invecode			= models.CharField(max_length=50,null=True,blank=True)
+	invename			= models.CharField(max_length=250,null=True,blank=True)
+	created 			= models.DateTimeField(auto_now_add=True)#Receiving Date
+	updated 			= models.DateTimeField(auto_now=True)
+	status 				= models.BooleanField(default=False)
+	user 				= models.ForeignKey(settings.AUTH_USER_MODEL,
+							on_delete=models.SET_NULL,blank=True,null=True)
+	executed 			= models.BooleanField(default=False)
+
+	class Meta:
+		unique_together = [['listno', 'poinvid']]
+
+	def __str__(self):
+		return f'{self.listno} of {self.poinvid}'
+
+	def get_absolute_url(self):
+		return reverse('receive:poinvdt', kwargs={'pk': self.pk})
+
+# def post_save_soinvdt_receiver(sender, instance,created, *args, **kwargs):
+# 	# if not instance.executed :
+# 	if created :
+# 		async_task('sale.tasks.add_to_sale',instance.goodcode,instance.invecode,
+# 					instance.soinvid.saledate,instance.goodqty,
+# 					instance.goodamnt,instance.goodname)
+# 		instance.executed = True
+# 		instance.save()
+# 		# print (f'Saved data of {instance.goodcode} -- {instance.invecode}')
+
+# post_save.connect(post_save_soinvdt_receiver, sender=SoInvDT)

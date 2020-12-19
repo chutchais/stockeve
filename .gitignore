@@ -5,3 +5,5 @@ src/*/*/__pycache__/*.py[cod]
 src/*/__pycache__/*.py[cod]
 src/product/__pycache__/*.*
 src/inventory/__pycache__/*.*
+src/inventory/__pycache__/*.pyc
+src/inventory/__pycache__/settings.cpython-38.pyc

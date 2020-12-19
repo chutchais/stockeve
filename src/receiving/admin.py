@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from django.contrib.auth.admin import UserAdmin as DefaultUserAdmin
 
-from .models import Receiving,Inspection
+from .models import Receiving,Inspection,PoInvHD,PoInvDT
 from store.models import Store
 
 from import_export import resources
@@ -78,3 +78,49 @@ class ReceivingAdmin(ImportExportModelAdmin,ImportExportActionModelAdmin,admin.M
 		# if db_field.name == 'store':
 		# 	kwargs["queryset"] = Store.objects.filter(incoming = True)
 		return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+
+class OrderDetailInline(admin.TabularInline):
+	model = PoInvDT
+	fields = ('listno','goodcode','goodname','goodqty','goodamnt','invecode')
+	readonly_fields = ('listno','goodcode','goodname','goodqty','goodamnt','invecode')
+	extra = 0 # how many rows to show
+
+@admin.register(PoInvHD)
+class PoInvHDAdmin(ImportExportModelAdmin,ImportExportActionModelAdmin,admin.ModelAdmin):
+	search_fields = ['poinvid','docuno']
+	# list_filter = [SaleAllProductDateFilter]
+	list_display = ('poinvid','docuno','totabaseamnt','vatamnt','netamnt','receivedate','executed')
+	# list_editable = ('color','move_performa')
+	# autocomplete_fields = ['product']
+	readonly_fields = ('created','updated','user')
+	save_as = True
+	save_as_continue = True
+	save_on_top =True
+	list_select_related = True
+	ordering = ['-receivedate','poinvid']
+
+	fieldsets = [
+		('Basic Information',{'fields': ['poinvid','docuno','receivedate','executed']}),
+		('Price',{'fields': ['totabaseamnt','vatamnt','netamnt']}),
+		('Vendor',{'fields': ['vendorname']}),
+		('System Information',{'fields':[('user','created'),'updated']})
+	]
+	# resource_class      = SaleResource
+	inlines =[OrderDetailInline]
+
+@admin.register(PoInvDT)
+class PoInvDTAdmin(ImportExportModelAdmin,ImportExportActionModelAdmin,admin.ModelAdmin):
+	search_fields = ['poinvid__poinvid','poinvid__docuno','goodcode','goodname']
+	list_filter = ['invecode']#SaleAllProductDateFilter]
+	list_display = ('poinvid','listno','goodcode','goodname','goodqty','goodamnt','invecode','executed')
+	# list_editable = ('color','move_performa')
+	# autocomplete_fields = ['product']
+	readonly_fields = ('updated','user','created')
+	ordering = ['-created','poinvid','listno']
+
+	fieldsets = [
+		('Basic Information',{'fields': ['poinvid','listno','goodid','goodcode','goodname','executed']}),
+		('Price',{'fields': ['goodqty','goodamnt','inveid','invecode','invename']}),
+		('System Information',{'fields':[('user','created'),'updated']})
+	]
