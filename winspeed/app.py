@@ -246,7 +246,7 @@ def fetch_receiveorder(poid):
 		jdata ={
 			"sql" : sql,
 			"rows" : len(rows),
-			"status":f"Fetch receive order {soid} is sucessful",
+			"status":f"Fetch receive order {poid} is sucessful",
 			"items": items}
 		cur.close()
 		conn.close()
