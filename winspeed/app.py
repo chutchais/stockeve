@@ -217,6 +217,7 @@ def fetch_receive_by_date(day):
 			}
 	response=jsonify(jdata)
 	response.headers.add('Access-Control-Allow-Origin', '*')
+	response.headers["Content-Type"] = "text/json; charset=utf-8"
 	return response
 
 
