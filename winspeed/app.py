@@ -16,6 +16,7 @@ import pyodbc
 CONNECTION_STRING: str = 'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password};'
 
 app = Flask(__name__)
+app.config['JSON_AS_ASCII'] = False
 
 def connect_db() -> pyodbc.Connection:
     ''' Connect to database. '''
