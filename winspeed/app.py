@@ -58,6 +58,7 @@ def check_db_connection():
 	response.headers.add('Access-Control-Allow-Origin', '*')
 	return response
 
+# Start Sale API
 @app.route('/api/sale/date/<day>', methods=['GET'])
 def fetch_sale_by_date(day):
 	try:
@@ -178,6 +179,46 @@ def fetch_invoice(invoice):
 	# response.headers.add('Access-Control-Allow-Origin', '*')
 	# return response
 	return json.dumps(jdata, indent=4,ensure_ascii=False).encode('utf8') ,200
+# End Sale API
+
+# Start PO (Receive) API
+@app.route('/api/receive/date/<day>', methods=['GET'])
+def fetch_receive_by_date(day):
+	try:
+		conn = connect_db()
+		cur = conn.cursor()
+		sql = f"select POInvID,DocuNo,InvNo,ShipNo,PONo,TotaBaseAmnt,VATAmnt,NetAmnt,VendorName from [dbwins_EMG].[dbo].[POInvHD] where DocuDate='{day}'"
+		rows = fetch_data(sql,cur)
+		pos =[]
+		for row in rows:
+			row_json = {
+				'POInvID': row.POInvID,
+				'DocuNo':row.DocuNo,
+				'InvNo':row.InvNo,
+				'ShipNo':row.ShipNo,
+				'PONo':row.PONo,
+				'VendorName':row.VendorName,
+				'TotaBaseAmnt': str(row.TotaBaseAmnt),
+				'VATAmnt': str(row.VATAmnt),
+				'NetAmnt': str(row.NetAmnt)
+			}
+			pos.append(row_json)
+		jdata ={
+			"sql" : sql,
+			"rows" : len(rows),
+			"status":f"Fetch receive by date on {day} is sucessful",
+			"pos": pos}
+		cur.close()
+		conn.close()
+	except Exception as e :
+		jdata ={
+			"sql" : sql,
+			"status":f"Unable to fetch data : {e}"
+			}
+	response=jsonify(jdata)
+	response.headers.add('Access-Control-Allow-Origin', '*')
+	return response
+
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0',debug=True)
