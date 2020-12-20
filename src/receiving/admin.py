@@ -51,7 +51,7 @@ class InspectionInline(admin.TabularInline):
 class ReceivingAdmin(ImportExportModelAdmin,ImportExportActionModelAdmin,admin.ModelAdmin):
 	search_fields = ['store__name','product__number','description']
 	list_filter = ['inspected','status','store']
-	list_display = ('product','store','qty','inspected','total_inspect','status','created')
+	list_display = ('product','store','qty','inspected','total_inspect','status','receivedate')
 	# list_editable = ('color','move_performa')
 	autocomplete_fields = ['product']
 	readonly_fields = ('created','updated','user')
@@ -62,7 +62,7 @@ class ReceivingAdmin(ImportExportModelAdmin,ImportExportActionModelAdmin,admin.M
 	list_select_related = True
 
 	fieldsets = [
-		('Basic Information',{'fields': ['product','store','qty','description','status']}),
+		('Basic Information',{'fields': ['product','store','qty','description','status','receivedate']}),
 		('Inspection Completed',{'fields': ['inspected']}),
 		('System Information',{'fields':[('user','created'),'updated']})
 	]

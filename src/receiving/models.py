@@ -9,6 +9,7 @@ from django.db.models.signals import post_save,pre_save,pre_delete
 # Create your models here.
 from store.models 		import Store
 from product.models 	import Product,ProductStock
+# from receiving.tasks	import add_to_receive
 
 from django_q.tasks import async_task
 
@@ -30,6 +31,7 @@ class Receiving(models.Model):
 	status 			= models.BooleanField(default=True)
 	user 			= models.ForeignKey(settings.AUTH_USER_MODEL,
 							on_delete=models.SET_NULL,blank=True,null=True)
+	receivedate 	= models.DateTimeField(null=True,blank=True)
 
 	def __str__(self):
 		return f'{self.product} on {self.store}'
@@ -313,14 +315,56 @@ class PoInvDT(models.Model):
 	def get_absolute_url(self):
 		return reverse('receive:poinvdt', kwargs={'pk': self.pk})
 
-# def post_save_soinvdt_receiver(sender, instance,created, *args, **kwargs):
-# 	# if not instance.executed :
-# 	if created :
-# 		async_task('sale.tasks.add_to_sale',instance.goodcode,instance.invecode,
-# 					instance.soinvid.saledate,instance.goodqty,
-# 					instance.goodamnt,instance.goodname)
-# 		instance.executed = True
-# 		instance.save()
-# 		# print (f'Saved data of {instance.goodcode} -- {instance.invecode}')
+from product.models import Product,ProductStock
+from store.models import Store
 
-# post_save.connect(post_save_soinvdt_receiver, sender=SoInvDT)
+def add_to_receive(product_code,store_code,saledate,qty=0,price=0,description=''):
+    print(f'Add Receive : {product_code} ,{store_code} ,{qty} ,{price} ,{description}')
+    # Verify Product
+    product,created = Product.objects.get_or_create(
+                            number=product_code,
+                            defaults={
+                                'finished_goods': True,
+                                'title':description,
+                                'description':description}
+                            )
+    # Verify Store
+    store,created = Store.objects.get_or_create(
+                            name = store_code,
+                            defaults ={
+                                'title':store_code,
+                                'sale_able':True}
+                            )
+    
+    # sale = Sale.objects.create(product=product,
+    #                 store=store,qty=qty,
+    #                 price=price,description=description,created=saledate,saledate=saledate)
+
+    # Get or Create ProductStock
+    productstock,created = ProductStock.objects.get_or_create(
+                            product = product,
+                            store = store
+                            )
+
+    receive = Receiving.objects.create(product=product,
+                    productstock = productstock,
+                    store=store,qty=qty,
+                    receivedate=saledate)
+    print('Save Receive successful')
+	
+def post_save_poinvdt_receiver(sender, instance,created, *args, **kwargs):
+	# if not instance.executed :
+	if created :
+		# async_task('receiving.tasks.add_to_receive',instance.goodcode,instance.invecode,
+		# 			instance.poinvid.receivedate,instance.goodqty,
+		# 			instance.goodamnt,instance.goodname)
+		# WARNING : IF use async task ,sometime found wrong incorrect balance
+		add_to_receive(instance.goodcode,instance.invecode,
+					instance.poinvid.receivedate,instance.goodqty,
+					instance.goodamnt,instance.goodname)
+		 
+		instance.executed = True
+		instance.save()
+		# print (f'Saved data of {instance.goodcode} -- {instance.invecode}')
+
+post_save.connect(post_save_poinvdt_receiver, sender=PoInvDT)

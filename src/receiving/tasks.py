@@ -1,5 +1,6 @@
 import requests
-from receiving.models import PoInvHD,PoInvDT
+from receiving.models import Receiving,PoInvHD,PoInvDT
+
 
 def pull_receive_winspeed():
     import datetime, pytz
@@ -82,28 +83,39 @@ def download_receive_items(poinv_obj,receivedate):
             pass
 
 
-from product.models import Product
-from store.models import Store
+# from product.models import Product,ProductStock
+# from store.models import Store
 
-def add_to_sale(product_code,store_code,saledate,qty=0,price=0,description=''):
-    print(f'Add Sale : {product_code} ,{store_code} ,{qty} ,{price} ,{description}')
-    # Verify Product
-    product,created = Product.objects.get_or_create(
-                            number=product_code,
-                            defaults={
-                                'finished_goods': True,
-                                'title':description,
-                                'description':description}
-                            )
-    # Verify Store
-    store,created = Store.objects.get_or_create(
-                            name = store_code,
-                            defaults ={
-                                'title':store_code,
-                                'sale_able':True}
-                            )
+# def add_to_receive(product_code,store_code,saledate,qty=0,price=0,description=''):
+#     print(f'Add Receive : {product_code} ,{store_code} ,{qty} ,{price} ,{description}')
+#     # Verify Product
+#     product,created = Product.objects.get_or_create(
+#                             number=product_code,
+#                             defaults={
+#                                 'finished_goods': True,
+#                                 'title':description,
+#                                 'description':description}
+#                             )
+#     # Verify Store
+#     store,created = Store.objects.get_or_create(
+#                             name = store_code,
+#                             defaults ={
+#                                 'title':store_code,
+#                                 'sale_able':True}
+#                             )
     
-    sale = Sale.objects.create(product=product,
-                    store=store,qty=qty,
-                    price=price,description=description,created=saledate,saledate=saledate)
-    print('Save Sale successful..')
+#     # sale = Sale.objects.create(product=product,
+#     #                 store=store,qty=qty,
+#     #                 price=price,description=description,created=saledate,saledate=saledate)
+
+#     # Get or Create ProductStock
+#     productstock,created = ProductStock.objects.get_or_create(
+#                             product = product,
+#                             store = store
+#                             )
+
+#     receive = Receiving.objects.create(product=product,
+#                     productstock = productstock,
+#                     store=store,qty=qty,
+#                     receivedate=saledate)
+#     print('Save Receive successful')
