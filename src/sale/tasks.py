@@ -7,6 +7,9 @@ def pull_sale_winspeed():
     # Compute the local datetime: local_dt
     local_dt = datetime.datetime.now(tz=tz)
     # Print the local datetime
+    # Added on Jan 8,2021 -- To increase 1 day for get sale data.
+    local_dt = local_dt + datetime.timedelta(days=1)
+    # ----------------------------------------------------------
     report_str = local_dt.strftime('%Y-%m-%d')
     print(f'Report time : {report_str}')
     donload_sale(report_str)
