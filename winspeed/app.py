@@ -264,6 +264,42 @@ def fetch_receiveorder(poid):
 	response.headers["Content-Type"] = "text/json; charset=utf-8"
 	return response
 
+# Start Transfer API--
+@app.route('/api/transfer/date/<day>', methods=['GET'])
+def fetch_transfer_by_date(day):
+	try:
+		conn = connect_db()
+		cur = conn.cursor()
+		sql = f"select DocuID,docudate,docuno,Remark1,AppvRemark1 from [dbwins_EMG].[dbo].[ICStockHD] where DocuDate='{day}' and docuno like 'TR%' order by docuno"
+		rows = fetch_data(sql,cur)
+		transfers =[]
+		for row in rows:
+			row_json = {
+				'DocuID': row.POInvID,
+				'DocuNo':row.DocuNo,
+				'DocDate' : row.docudate,
+				'Remark1' : row.Remark1,
+				'AppvRemark1' : row.AppvRemark1
+			}
+			transfers.append(row_json)
+		jdata ={
+			"sql" : sql,
+			"rows" : len(rows),
+			"status":f"Fetch transfer by date on {day} is sucessful",
+			"pos": transfers}
+		cur.close()
+		conn.close()
+	except Exception as e :
+		jdata ={
+			"sql" : sql,
+			"status":f"Unable to fetch data : {e}"
+			}
+	response=jsonify(jdata)
+	response.headers.add('Access-Control-Allow-Origin', '*')
+	response.headers["Content-Type"] = "text/json; charset=utf-8"
+	return response
+
+# End Transfer--
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0',debug=True)

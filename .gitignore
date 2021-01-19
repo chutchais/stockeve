@@ -7,3 +7,6 @@ src/product/__pycache__/*.*
 src/inventory/__pycache__/*.*
 src/inventory/__pycache__/*.pyc
 src/inventory/__pycache__/settings.cpython-38.pyc
+src/inventory/__pycache__/settings.cpython-38.pyc
+src/receiving/__pycache__/admin.cpython-38.pyc
+src/receiving/__pycache__/models.cpython-38.pyc
