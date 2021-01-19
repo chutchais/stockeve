@@ -310,7 +310,7 @@ def fetch_transfer_detail(docid):
 				'GoodCode':row.GoodCode,
 				'GoodID':row.GoodID,
 				'GoodName':row.GoodName,
-				'RemaQty':row.RemaQty,
+				'RemaQty':str(row.RemaQty),
 				'ListNo' : row.ListNo,
 				'InveID' : str(row.InveID),
 				'InveCode': str(row.InveCode),
