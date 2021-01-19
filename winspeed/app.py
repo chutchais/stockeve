@@ -275,7 +275,7 @@ def fetch_transfer_by_date(day):
 		transfers =[]
 		for row in rows:
 			row_json = {
-				'DocuID': row.POInvID,
+				'DocuID': row.DocuID,
 				'DocuNo':row.DocuNo,
 				'DocDate' : row.docudate,
 				'Remark1' : row.Remark1,
