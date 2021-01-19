@@ -255,10 +255,6 @@ def fetch_receiveorder(poid):
 			"sql" : sql,
 			"status":f"Unable to connect database : {e}"
 			}
-	# response=jsonify(jdata)
-	# response.headers.add('Access-Control-Allow-Origin', '*')
-	# return response
-	# return json.dumps(jdata, indent=4,ensure_ascii=False).encode('utf8') ,200
 	response=jsonify(jdata)
 	response.headers.add('Access-Control-Allow-Origin', '*')
 	response.headers["Content-Type"] = "text/json; charset=utf-8"
@@ -299,6 +295,44 @@ def fetch_transfer_by_date(day):
 	response.headers["Content-Type"] = "text/json; charset=utf-8"
 	return response
 
+@app.route('/api/tranferdetail/<docid>', methods=['GET'])
+def fetch_transfer_detail(docid):
+	try:
+		conn = connect_db()
+		cur = conn.cursor()
+		sql = f"SELECT s.GoodID,e.GoodCode,GoodName,s.InveID,i.InveCode,i.InveName,ListNo,s.RemaQty,DocuNo from [dbwins_EMG].[dbo].ICStockDetail s inner join [dbwins_EMG].[dbo].[EMGood] e on s.GoodID = e.GoodID inner join [dbwins_EMG].[dbo].[EMInve] i on s.InveID = i.InveID where s.DocuID ={docid}"
+		rows = fetch_data(sql,cur)
+		items =[]
+		for row in rows:
+			row_json = {
+				'DocuID': row.DocuID,
+				'DocuNo': row.DocuNo,
+				'GoodCode':row.GoodCode,
+				'GoodID':row.GoodID,
+				'GoodName':row.GoodName,
+				'RemaQty':str(row.RemaQty),
+				'ListNo' : row.ListNo,
+				'InveID' : str(row.InveID),
+				'InveCode': str(row.InveCode),
+				'InveName': row.InveName
+			}
+			items.append(row_json)
+		jdata ={
+			"sql" : sql,
+			"rows" : len(rows),
+			"status":f"Fetch transfer order {docid} is sucessful",
+			"items": items}
+		cur.close()
+		conn.close()
+	except Exception as e :
+		jdata ={
+			"sql" : sql,
+			"status":f"Unable to connect database : {e}"
+			}
+	response=jsonify(jdata)
+	response.headers.add('Access-Control-Allow-Origin', '*')
+	response.headers["Content-Type"] = "text/json; charset=utf-8"
+	return response
 # End Transfer--
 
 if __name__ == '__main__':
