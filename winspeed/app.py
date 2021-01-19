@@ -276,7 +276,7 @@ def fetch_transfer_by_date(day):
 		for row in rows:
 			row_json = {
 				'DocuID': row.DocuID,
-				'DocuNo':row.DocuNo,
+				'DocuNo':row.docuno,
 				'DocDate' : row.docudate,
 				'Remark1' : row.Remark1,
 				'AppvRemark1' : row.AppvRemark1
