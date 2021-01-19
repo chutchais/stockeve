@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'django_filters',
+    'transfer',
 ]
 
 CKEDITOR_UPLOAD_PATH = "file/promotions/"

@@ -1,4 +1,7 @@
 from django.db import models
+from django.core.exceptions import ValidationError
+from django.core.validators import RegexValidator
+from django.conf import settings
 
 # Create your models here.
 
@@ -7,14 +10,13 @@ from django.db import models
 class ICStockHD(models.Model):
 	docuid 		    = models.IntegerField(primary_key=True)
 	docuno 			= models.CharField(max_length=50,null=True,blank=True)
-    remark1         = models.CharField(max_length=255,null=True,blank=True)
+	remark1         = models.CharField(max_length=255,null=True,blank=True)
 	docudate 		= models.DateTimeField(null=True,blank=True)
 	created 		= models.DateTimeField(auto_now_add=True)#Receiving Date
 	updated 		= models.DateTimeField(auto_now=True)
 	status 			= models.BooleanField(default=False)
 	user 			= models.ForeignKey(settings.AUTH_USER_MODEL,
 							on_delete=models.SET_NULL,blank=True,null=True)
-	executed 		= models.BooleanField(default=False)
 
 	def __str__(self):
 		return f'{self.docuid}'
@@ -41,7 +43,6 @@ class ICStockDetail(models.Model):
 	status 				= models.BooleanField(default=False)
 	user 				= models.ForeignKey(settings.AUTH_USER_MODEL,
 							on_delete=models.SET_NULL,blank=True,null=True)
-	executed 			= models.BooleanField(default=False)
 
 	class Meta:
 		unique_together = [['listno', 'icstockhd']]
