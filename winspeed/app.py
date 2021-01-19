@@ -300,7 +300,7 @@ def fetch_transfer_detail(docid):
 	try:
 		conn = connect_db()
 		cur = conn.cursor()
-		sql = f"SELECT s.GoodID,e.GoodCode,GoodName,s.InveID,i.InveCode,i.InveName,ListNo,s.RemaQty,DocuNo from [dbwins_EMG].[dbo].ICStockDetail s inner join [dbwins_EMG].[dbo].[EMGood] e on s.GoodID = e.GoodID inner join [dbwins_EMG].[dbo].[EMInve] i on s.InveID = i.InveID where s.DocuID ={docid}"
+		sql = f"SELECT DocuID,s.GoodID,e.GoodCode,GoodName,s.InveID,i.InveCode,i.InveName,ListNo,s.RemaQty,DocuNo from [dbwins_EMG].[dbo].ICStockDetail s inner join [dbwins_EMG].[dbo].[EMGood] e on s.GoodID = e.GoodID inner join [dbwins_EMG].[dbo].[EMInve] i on s.InveID = i.InveID where s.DocuID ={docid}"
 		rows = fetch_data(sql,cur)
 		items =[]
 		for row in rows:
