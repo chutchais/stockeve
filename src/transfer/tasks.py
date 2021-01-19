@@ -8,75 +8,70 @@ def pull_transfer_winspeed():
     local_dt = datetime.datetime.now(tz=tz)
     # Print the local datetime
     # Added on Jan 8,2021 -- To increase 1 day for get sale data.
-    local_dt = local_dt + datetime.timedelta(days=1)
+    # local_dt = local_dt + datetime.timedelta(days=1)
     # ----------------------------------------------------------
     report_str = local_dt.strftime('%Y-%m-%d')
     print(f'Report time : {report_str}')
-    donload_sale(report_str)
+    download_transfer(report_str)
 
-def donload_sale(date='2020-09-21'):
+def download_transfer(date='2020-09-21'):
     from datetime import datetime
-    URL_SALE = f'http://180.183.250.150:8081/api/sale/date/{date}'
-    URL_SALE = f'http://192.168.101.10:8081/api/sale/date/{date}'
-    res = requests.get(URL_SALE)
-    for item in res.json()['invoices']:
+    URL_TRANSFER = f'http://180.183.250.150:8081/api/transfer/date/{date}'
+    # URL_SALE = f'http://192.168.101.10:8081/api/sale/date/{date}'
+    res = requests.get(URL_TRANSFER)
+    for item in res.json()['pos']:
         # print(item)
-        soinvid         = item['SOInvID']
+        docuid          = item['DocuID']
         docuno          = item['DocuNo']
-        totabaseamnt    = item['TotaBaseAmnt']
-        vatamnt         = item['VATAmnt']
-        netamnt         = item['NetAmnt']
-        # saledate        = date_dt3 = datetime.strptime(date, '%Y-%m-%d')
-        saledate        = datetime.strptime(date, '%Y-%m-%d')
-        obj, created = SoInvHD.objects.get_or_create(
-            soinvid=int(soinvid),
+        remark1         = item['Remark1']
+        # docdate         = item['DocDate']
+        # docdate         = datetime.strptime(date, '%Y-%m-%d')
+        docudate        = datetime.strptime(date, '%Y-%m-%d')
+        obj, created = ICStockHD.objects.get_or_create(
+            docuid=int(docuid),
             defaults={'docuno': docuno,
-                    'totabaseamnt':float(totabaseamnt),
-                    'vatamnt': float(vatamnt),
-                    'netamnt': float(netamnt),
-                    'saledate':saledate
+                        'remark1' : remark1,
+                        'docudate' : docudate
                     },
         )
         # Added on Sep 28,2020 -- To Pull Order detail
         # http://180.183.250.150:8081/api/saleorder/99551
         # http://192.168.101.10:8081/api/saleorder/99551
         if created:
-            donload_sale_items(obj,saledate)
+            download_transfer_items(obj,docudate)
 
-def donload_sale_items(soinv_obj,saledate):
+def download_transfer_items(trans_obj,transferdate):
     from datetime import datetime
-    URL_SALE_ITEM = f'http://180.183.250.150:8081/api/saleorder/{soinv_obj.soinvid}'
-    URL_SALE_ITEM = f'http://192.168.101.10:8081/api/saleorder/{soinv_obj.soinvid}'
-    print (URL_SALE_ITEM)
-    res = requests.get(URL_SALE_ITEM)
+    URL_TRANSFER_ITEM = f'http://180.183.250.150:8081/api/tranferdetail/{trans_obj.docuid}'
+    # URL_SALE_ITEM = f'http://192.168.101.10:8081/api/saleorder/{soinv_obj.soinvid}'
+    print (URL_TRANSFER_ITEM)
+    res = requests.get(URL_TRANSFER_ITEM)
     for item in res.json()['items']:
         # soinvid             = item['SOInvID']
         listno              = item['ListNo']
         goodid              = item['GoodID']
         goodcode            = item['GoodCode']
         goodname            = item['GoodName']
-        goodqty             = item['GoodQty2']
-        goodamnt            = item['GoodAmnt']
+        goodqty             = item['RemaQty']
         inveid              = item['InveID']
         invecode            = item['InveCode']
         invename            = item['InveName']
 
         # saledate        = date_dt3 = datetime.strptime(date, '%Y-%m-%d')
-        obj, created = SoInvDT.objects.get_or_create(
-            soinvid=soinv_obj,listno=int(listno),
+        obj, created = ICStockDetail.objects.get_or_create(
+            icstockhd=trans_obj,listno=int(listno),
             defaults={'goodid': goodid,
                     'goodcode' : goodcode,
                     'goodname' : goodname,
                     'goodqty' : float(goodqty),
-                    'goodamnt':float(goodamnt),
                     'inveid' : int(inveid),
                     'invecode':invecode,
                     'invename' : invename,
-                    'created':saledate
+                    'created':transferdate
                     },
         )
-        print(f'Order ddate {saledate}')
-        print(f'Create order detail {goodcode}')
+        print(f'Order ddate {transferdate}')
+        print(f'Create order detail {transferdate}')
         # Added on Sep 28,2020 -- To Pull Order detail
         # http://180.183.250.150:8081/api/saleorder/99551
         # http://192.168.101.10:8081/api/saleorder/99551
