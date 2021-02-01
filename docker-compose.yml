@@ -170,3 +170,15 @@ volumes:
 
 networks:
   main:
+
+
+
+# 1. Clear all chains:
+
+# service firewalld stop (optional)
+
+# sudo iptables -t filter -F
+# sudo iptables -t filter -X
+# 2. Then restart Docker Service:
+
+# systemctl restart docker
